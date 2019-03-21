@@ -12,7 +12,8 @@
 # Virtual environment.
 /env/
 
-# Distribution package folder.
+# Distribution package folders.
+/dist/
 /build/
 
 # Python egg metadata.
