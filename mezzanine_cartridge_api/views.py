@@ -11,7 +11,11 @@ from mezzanine.galleries.models import Gallery, GalleryImage
 
 from mezzanine.generic.models import ThreadedComment, AssignedKeyword, Rating
 
-from cartridge.shop.models import Product, ProductImage, ProductOption, ProductVariation, Category, Order, OrderItem, Discount, Sale, DiscountCode
+# Conditionally include Cartridge viewsets, if the Cartridge package is installed
+try:
+    from cartridge.shop.models import Product, ProductImage, ProductOption, ProductVariation, Category, Order, OrderItem, Discount, Sale, DiscountCode
+except RuntimeError:
+    pass
 
 from rest_framework import viewsets
 from rest_framework import generics
@@ -179,110 +183,113 @@ class RatingViewSet(viewsets.ModelViewSet):
     permission_classes = (HasAPIKey,)
     http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
 
-
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
-class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-    permission_classes = (HasAPIKey,)
-    http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
-
-
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
-class ProductImageViewSet(viewsets.ModelViewSet):
-    queryset = ProductImage.objects.all()
-    serializer_class = ProductImageSerializer
-    permission_classes = (HasAPIKey,)
-    http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
+# Conditionally include Cartridge viewsets, if the Cartridge package is installed
+try:
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    class ProductViewSet(viewsets.ModelViewSet):
+        queryset = Product.objects.all()
+        serializer_class = ProductSerializer
+        permission_classes = (HasAPIKey,)
+        http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
-class ProductOptionViewSet(viewsets.ModelViewSet):
-    queryset = ProductOption.objects.all()
-    serializer_class = ProductOptionSerializer
-    permission_classes = (HasAPIKey,)
-    http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    class ProductImageViewSet(viewsets.ModelViewSet):
+        queryset = ProductImage.objects.all()
+        serializer_class = ProductImageSerializer
+        permission_classes = (HasAPIKey,)
+        http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
-class ProductVariationViewSet(viewsets.ModelViewSet):
-    queryset = ProductVariation.objects.all()
-    serializer_class = ProductVariationSerializer
-    permission_classes = (HasAPIKey,)
-    http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    class ProductOptionViewSet(viewsets.ModelViewSet):
+        queryset = ProductOption.objects.all()
+        serializer_class = ProductOptionSerializer
+        permission_classes = (HasAPIKey,)
+        http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
-class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-    permission_classes = (HasAPIKey,)
-    http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    class ProductVariationViewSet(viewsets.ModelViewSet):
+        queryset = ProductVariation.objects.all()
+        serializer_class = ProductVariationSerializer
+        permission_classes = (HasAPIKey,)
+        http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
-class OrderViewSet(viewsets.ModelViewSet):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
-    permission_classes = (HasAPIKey,)
-    http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    class CategoryViewSet(viewsets.ModelViewSet):
+        queryset = Category.objects.all()
+        serializer_class = CategorySerializer
+        permission_classes = (HasAPIKey,)
+        http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
-class OrderItemViewSet(viewsets.ModelViewSet):
-    queryset = OrderItem.objects.all()
-    serializer_class = OrderItemSerializer
-    permission_classes = (HasAPIKey,)
-    http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    class OrderViewSet(viewsets.ModelViewSet):
+        queryset = Order.objects.all()
+        serializer_class = OrderSerializer
+        permission_classes = (HasAPIKey,)
+        http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
-class SaleViewSet(viewsets.ModelViewSet):
-    queryset = Sale.objects.all()
-    serializer_class = SaleSerializer
-    permission_classes = (HasAPIKey,)
-    http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    class OrderItemViewSet(viewsets.ModelViewSet):
+        queryset = OrderItem.objects.all()
+        serializer_class = OrderItemSerializer
+        permission_classes = (HasAPIKey,)
+        http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
-class DiscountCodeViewSet(viewsets.ModelViewSet):
-    queryset = DiscountCode.objects.all()
-    serializer_class = DiscountCodeSerializer
-    permission_classes = (HasAPIKey,)
-    http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    class SaleViewSet(viewsets.ModelViewSet):
+        queryset = Sale.objects.all()
+        serializer_class = SaleSerializer
+        permission_classes = (HasAPIKey,)
+        http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
+
+
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    class DiscountCodeViewSet(viewsets.ModelViewSet):
+        queryset = DiscountCode.objects.all()
+        serializer_class = DiscountCodeSerializer
+        permission_classes = (HasAPIKey,)
+        http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
+except: # NameError:
+    pass

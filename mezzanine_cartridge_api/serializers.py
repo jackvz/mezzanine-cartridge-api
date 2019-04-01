@@ -10,7 +10,11 @@ from mezzanine.galleries.models import Gallery, GalleryImage
 
 from mezzanine.generic.models import ThreadedComment, AssignedKeyword, Rating
 
-from cartridge.shop.models import Product, ProductImage, ProductOption, ProductVariation, Category, Order, OrderItem, Discount, Sale, DiscountCode
+# Conditionally include Cartridge models, if the Cartridge package is installed
+try:
+    from cartridge.shop.models import Product, ProductImage, ProductOption, ProductVariation, Category, Order, OrderItem, Discount, Sale, DiscountCode
+except RuntimeError:
+    pass
 
 from rest_framework import serializers
 
@@ -99,64 +103,68 @@ class RatingSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class ProductSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.ReadOnlyField()
-    class Meta:
-        model = Product
-        fields = '__all__'
+# Conditionally include Cartridge models, if the Cartridge package is installed
+try:
+    class ProductSerializer(serializers.HyperlinkedModelSerializer):
+        id = serializers.ReadOnlyField()
+        class Meta:
+            model = Product
+            fields = '__all__'
 
 
-class ProductImageSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.ReadOnlyField()
-    class Meta:
-        model = ProductImage
-        fields = '__all__'
+    class ProductImageSerializer(serializers.HyperlinkedModelSerializer):
+        id = serializers.ReadOnlyField()
+        class Meta:
+            model = ProductImage
+            fields = '__all__'
 
 
-class ProductOptionSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.ReadOnlyField()
-    class Meta:
-        model = ProductOption
-        fields = '__all__'
+    class ProductOptionSerializer(serializers.HyperlinkedModelSerializer):
+        id = serializers.ReadOnlyField()
+        class Meta:
+            model = ProductOption
+            fields = '__all__'
 
 
-class ProductVariationSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.ReadOnlyField()
-    class Meta:
-        model = ProductVariation
-        fields = '__all__'
+    class ProductVariationSerializer(serializers.HyperlinkedModelSerializer):
+        id = serializers.ReadOnlyField()
+        class Meta:
+            model = ProductVariation
+            fields = '__all__'
 
 
-class CategorySerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.ReadOnlyField()
-    class Meta:
-        model = Category
-        fields = '__all__'
+    class CategorySerializer(serializers.HyperlinkedModelSerializer):
+        id = serializers.ReadOnlyField()
+        class Meta:
+            model = Category
+            fields = '__all__'
 
 
-class OrderSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.ReadOnlyField()
-    class Meta:
-        model = Order
-        fields = '__all__'
+    class OrderSerializer(serializers.HyperlinkedModelSerializer):
+        id = serializers.ReadOnlyField()
+        class Meta:
+            model = Order
+            fields = '__all__'
 
 
-class OrderItemSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.ReadOnlyField()
-    class Meta:
-        model = OrderItem
-        fields = '__all__'
+    class OrderItemSerializer(serializers.HyperlinkedModelSerializer):
+        id = serializers.ReadOnlyField()
+        class Meta:
+            model = OrderItem
+            fields = '__all__'
 
 
-class SaleSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.ReadOnlyField()
-    class Meta:
-        model = Sale
-        fields = '__all__'
+    class SaleSerializer(serializers.HyperlinkedModelSerializer):
+        id = serializers.ReadOnlyField()
+        class Meta:
+            model = Sale
+            fields = '__all__'
 
 
-class DiscountCodeSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.ReadOnlyField()
-    class Meta:
-        model = DiscountCode
-        fields = '__all__'
+    class DiscountCodeSerializer(serializers.HyperlinkedModelSerializer):
+        id = serializers.ReadOnlyField()
+        class Meta:
+            model = DiscountCode
+            fields = '__all__'
+except: #NameError:
+    pass

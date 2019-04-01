@@ -7,6 +7,8 @@
 
 A REST Web API for the [Mezzanine content management system](http://mezzanine.jupo.org/) with the [Cartridge](http://cartridge.jupo.org/index.html) e-commerce extension.
 
+Oh, and this will work even if you're just running a blog or any other Mezzanine website without the Cartridge package.
+
 [![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/sTZBGpQ)
 
 ## Features

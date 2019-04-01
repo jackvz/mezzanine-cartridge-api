@@ -11,7 +11,7 @@ from .drf_yasg_renderers import *
 from .drf_yasg_views import get_schema_view
 from drf_yasg import openapi
 
-# Conditionally include OAuth2 views, if in installed_apps in settings
+# Conditionally include OAuth2 views, if OAuth2 is installed and configured for the API
 try:
     import oauth2_provider.views as oauth2_views
 except RuntimeError:
@@ -44,15 +44,20 @@ router.register(r'galleryimage', views.GalleryImageViewSet)
 router.register(r'threadedcomment', views.ThreadedCommentViewSet)
 router.register(r'assignedkeyword', views.AssignedKeywordViewSet)
 router.register(r'rating', views.RatingViewSet)
-router.register(r'product', views.ProductViewSet)
-router.register(r'productimage', views.ProductImageViewSet)
-router.register(r'productoption', views.ProductOptionViewSet)
-router.register(r'productvariation', views.ProductVariationViewSet)
-router.register(r'category', views.CategoryViewSet)
-router.register(r'order', views.OrderViewSet)
-router.register(r'orderitem', views.OrderItemViewSet)
-router.register(r'sale', views.SaleViewSet)
-router.register(r'discountcode', views.DiscountCodeViewSet)
+
+# Conditionally include Cartridge viewsets, if the Cartridge package is installed
+try:
+  router.register(r'product', views.ProductViewSet)
+  router.register(r'productimage', views.ProductImageViewSet)
+  router.register(r'productoption', views.ProductOptionViewSet)
+  router.register(r'productvariation', views.ProductVariationViewSet)
+  router.register(r'category', views.CategoryViewSet)
+  router.register(r'order', views.OrderViewSet)
+  router.register(r'orderitem', views.OrderItemViewSet)
+  router.register(r'sale', views.SaleViewSet)
+  router.register(r'discountcode', views.DiscountCodeViewSet)
+except: # AttributeError:
+    pass
 
 urlpatterns = [
 	url(r'^$', RedirectView.as_view(url='/api/docs', permanent=False)),
