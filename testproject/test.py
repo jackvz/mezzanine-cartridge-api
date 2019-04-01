@@ -108,7 +108,7 @@ class DiscountCodeSerializerTestCase(DiscountCodeSerializer, TestCase, SharedSer
 
 class SharedViewTestsMixin(object):
     def test_view(self):
-         self.assertEquals(self.permission_classes, (HasAPIKeyOrIsAuthenticated,))
+         self.assertEquals(self.permission_classes, (HasAPIKey,))
          self.assertEquals(self.http_method_names, ['head', 'get', 'post', 'put', 'delete'])
 
 class UserViewSetTestCase(UserViewSet, TestCase, SharedViewTestsMixin):
@@ -228,9 +228,19 @@ class MezzanineCartridgeApiTestCase(TestCase):
             'LOGIN_URL': '/admin/login/',
             'LOGOUT_URL': '/admin/logout/',
             'DOC_EXPANSION': 'list',
-            'USE_SESSION_AUTH': True,
+            'USE_SESSION_AUTH': False,
             'APIS_SORTER': 'alpha',
             'SECURITY_DEFINITIONS': {
+                "API Token": {
+                    "type": "apiKey",
+                    "name": "Api-Token",
+                    "in": "header"
+                },
+                "API Secret Key": {
+                    "type": "apiKey",
+                    "name": "Api-Secret-Key",
+                    "in": "header"
+                },
             }
         })
 
