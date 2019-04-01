@@ -39,7 +39,7 @@
 <script id="oauth2-config" type="application/json">{{ oauth2_config | safe }}</script>
 
 {% block main_scripts %}
-{% if SWAGGER_SCHEME_HTTPS %}
+{% if settings.SWAGGER_SCHEME_HTTPS %}
     <script src="{% static 'swagger-ui-bundle-https.js' %}"></script>
 {% else %}
     <script src="{% static 'swagger-ui-bundle-http.js' %}"></script>

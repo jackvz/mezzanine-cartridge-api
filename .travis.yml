@@ -11,7 +11,7 @@ deploy:
   provider: pypi
   server:
     # All changes in the master branch are deployed to Test PyPI
-    master: https://test.pypi.org/legacy
+    master: https://test.pypi.org/legacy/
     # All changes in the production branch are deployed to PyPI
     production: https://upload.pypi.org/legacy/
   user: jackvanzyl

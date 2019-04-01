@@ -16,6 +16,7 @@ from drf_yasg.renderers import (
     _SpecRenderer
 )
 
+from mezzanine.conf import settings
 from .drf_yasg_renderers import *
 
 
