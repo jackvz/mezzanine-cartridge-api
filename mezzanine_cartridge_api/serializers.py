@@ -13,7 +13,7 @@ from mezzanine.generic.models import ThreadedComment, AssignedKeyword, Rating
 # Conditionally include Cartridge models, if the Cartridge package is installed
 try:
     from cartridge.shop.models import Product, ProductImage, ProductOption, ProductVariation, Category, Order, OrderItem, Discount, Sale, DiscountCode
-except RuntimeError:
+except:
     pass
 
 from rest_framework import serializers
@@ -166,5 +166,5 @@ try:
         class Meta:
             model = DiscountCode
             fields = '__all__'
-except: #NameError:
+except:
     pass

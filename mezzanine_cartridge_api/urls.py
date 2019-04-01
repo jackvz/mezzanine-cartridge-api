@@ -14,7 +14,7 @@ from drf_yasg import openapi
 # Conditionally include OAuth2 views, if OAuth2 is installed and configured for the API
 try:
     import oauth2_provider.views as oauth2_views
-except RuntimeError:
+except:
     pass
 
 from . import views
@@ -56,7 +56,7 @@ try:
   router.register(r'orderitem', views.OrderItemViewSet)
   router.register(r'sale', views.SaleViewSet)
   router.register(r'discountcode', views.DiscountCodeViewSet)
-except: # AttributeError:
+except:
     pass
 
 urlpatterns = [
@@ -74,5 +74,5 @@ try:
         url(r'^token/$', oauth2_views.TokenView.as_view(), name="token"),
         url(r'^revoke-token/$', oauth2_views.RevokeTokenView.as_view(), name="revoke-token"),
     ] + urlpatterns
-except NameError:
+except:
     pass

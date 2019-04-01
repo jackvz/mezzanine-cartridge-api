@@ -14,7 +14,7 @@ from mezzanine.generic.models import ThreadedComment, AssignedKeyword, Rating
 # Conditionally include Cartridge viewsets, if the Cartridge package is installed
 try:
     from cartridge.shop.models import Product, ProductImage, ProductOption, ProductVariation, Category, Order, OrderItem, Discount, Sale, DiscountCode
-except RuntimeError:
+except:
     pass
 
 from rest_framework import viewsets
@@ -291,5 +291,5 @@ try:
         serializer_class = DiscountCodeSerializer
         permission_classes = (HasAPIKey,)
         http_method_names = ['head', 'get', 'post', 'put', 'delete'] # 'patch'
-except: # NameError:
+except:
     pass
