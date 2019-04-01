@@ -82,7 +82,7 @@ Add the following to installed apps and middleware in your project's settings.py
         'corsheaders',
         'rest_framework',
         'rest_framework_api_key',
-        'rest_framework_swagger',
+        'drf_yasg',
         'mezzanine_cartridge_api',
         ...
     )

@@ -316,7 +316,7 @@ INSTALLED_APPS = (
     'corsheaders',
     'rest_framework',
     'rest_framework_api_key',
-    'rest_framework_swagger',
+    'drf_yasg',
     # 'oauth2_provider',
     # 'rest_framework.authtoken',
     'mezzanine_cartridge_api',

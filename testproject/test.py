@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from rest_framework import serializers
 from mezzanine.conf import settings
-from rest_framework_swagger import renderers
+from drf_yasg import renderers
 
 from mezzanine_cartridge_api.serializers import *
 from mezzanine_cartridge_api.views import *
@@ -245,7 +245,3 @@ class MezzanineCartridgeApiTestCase(TestCase):
         })
 
         self.assertEqual(settings.SWAGGER_SCHEME_HTTPS, False)
-
-    def test_swagger_renderer(self):
-        self.assertEqual(renderers.SwaggerUIRenderer.template, 'rest_framework_swagger/http.html')
-

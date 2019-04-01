@@ -5,7 +5,7 @@ with open('readme.md', 'r') as fh:
 
 setuptools.setup(
     name = 'mezzanine_cartridge_api',
-    version = '1.2.0',
+    version = '1.2.1',
     author = 'Jack van Zyl',
     author_email = 'jackvanzyl@icloud.com',
     description = 'A REST Web API for Mezzanine CMS with the Cartridge e-commerce extension',
@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type = 'text/markdown',
     url = 'https://github.com/jackvz/mezzanine-cartridge-api',
     packages = setuptools.find_packages(),
-    data_files=[('readme', ['readme.md']), ('templates', ['mezzanine_cartridge_api/templates/rest_framework_swagger/http.html', 'mezzanine_cartridge_api/templates/rest_framework_swagger/https.html'])],
+    data_files=[('readme', ['readme.md']), ('templates', ['mezzanine_cartridge_api/templates/swagger-ui.html'])],
     include_package_data=True,
     install_requires=[
         'django-custom-settings==0.1.4',
@@ -21,7 +21,6 @@ setuptools.setup(
         'django-cors-middleware==1.3.1',
         'djangorestframework==3.9.2',
         'djangorestframework-api-key==0.3.1',
-        'django-rest-swagger==2.2.0',
         'drf_yasg==1.15.0'
     ],
     classifiers = [
