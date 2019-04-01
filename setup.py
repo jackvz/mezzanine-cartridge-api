@@ -14,7 +14,7 @@ setuptools.setup(
     url = 'https://github.com/jackvz/mezzanine-cartridge-api',
     packages = setuptools.find_packages(),
     data_files=[('readme', ['readme.md']), 
-        ('templates', ['mezzanine_cartridge_api/templates/swagger-ui-all-schemes.html'])
+        ('templates', ['mezzanine_cartridge_api/templates/swagger-ui-all-schemes.html']),
         ('static', [
             'mezzanine_cartridge_api/static/swagger-ui-bundle.js',
             'mezzanine_cartridge_api/static/swagger-ui-standalone-preset.js',
