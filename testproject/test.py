@@ -6,7 +6,8 @@ from drf_yasg import renderers
 
 from mezzanine_cartridge_api.serializers import *
 from mezzanine_cartridge_api.views import *
-from mezzanine_cartridge_api.renderers import *
+from mezzanine_cartridge_api.drf_yasg_renderers import *
+from mezzanine_cartridge_api.drf_yasg_views import *
 
 
 # Shared serialiser tests
@@ -248,5 +249,5 @@ class MezzanineCartridgeApiTestCase(TestCase):
         self.assertEqual(settings.SWAGGER_SCHEME_HTTPS, False)
 
     def test_swagger_renderer(self):
-        self.assertEqual(SwaggerUIRendererWithCorrectScheme.template, 'swagger-ui.html')
+        self.assertEqual(SwaggerUIRendererWithCorrectScheme.template, 'swagger-ui-http.html')
 
