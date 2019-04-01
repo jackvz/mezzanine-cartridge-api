@@ -69,7 +69,7 @@ pip3 install -r requirements.txt
 python3 manage.py runserver
 ```
 
-Then see the following section on adding to an existing installation
+Then see the following section on adding to an existing installation.
 
 ## Adding to an existing installation
 
@@ -127,12 +127,17 @@ The following configuration settings are available:
 
 CORS_ORIGIN_ALLOW_ALL
 
-And other [django-cors-middleware](https://pypi.org/project/django-cors-middleware/) settings
+And other [django-cors-middleware](https://pypi.org/project/django-cors-middleware/) settings.
 
 REST_FRAMEWORK
 
-See the [Django REST framework settings](https://www.django-rest-framework.org/api-guide/settings/)
+See the [Django REST framework settings](https://www.django-rest-framework.org/api-guide/settings/).
 
 SWAGGER_SETTINGS
 
-See the [drf-yasg Swagger settings](https://drf-yasg.readthedocs.io/en/stable/settings.html#swagger-settings)
+See the [drf-yasg Swagger settings](https://drf-yasg.readthedocs.io/en/stable/settings.html#swagger-settings).
+
+SWAGGER_SCHEME_HTTPS
+
+True or False: Defaults to False. True for when your API is available over HTTPS.
+

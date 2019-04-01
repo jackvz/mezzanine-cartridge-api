@@ -5,7 +5,7 @@ with open('readme.md', 'r') as fh:
 
 setuptools.setup(
     name = 'mezzanine_cartridge_api',
-    version = '1.2.8',
+    version = '1.2.9',
     author = 'Jack van Zyl',
     author_email = 'jackvanzyl@icloud.com',
     description = 'A REST Web API for Mezzanine CMS with the Cartridge e-commerce extension',
@@ -16,7 +16,8 @@ setuptools.setup(
     data_files=[('readme', ['readme.md']), 
         ('templates', ['mezzanine_cartridge_api/templates/swagger-ui-all-schemes.html']),
         ('static', [
-            'mezzanine_cartridge_api/static/swagger-ui-bundle.js',
+            'mezzanine_cartridge_api/static/swagger-ui-bundle-http.js',
+            'mezzanine_cartridge_api/static/swagger-ui-bundle-https.js',
             'mezzanine_cartridge_api/static/swagger-ui-standalone-preset.js',
         ])
     ],

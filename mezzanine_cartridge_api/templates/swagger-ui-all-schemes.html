@@ -39,7 +39,11 @@
 <script id="oauth2-config" type="application/json">{{ oauth2_config | safe }}</script>
 
 {% block main_scripts %}
-    <script src="{% static 'swagger-ui-bundle.js' %}"></script>
+{% if SWAGGER_SCHEME_HTTPS %}
+    <script src="{% static 'swagger-ui-bundle-https.js' %}"></script>
+{% else %}
+    <script src="{% static 'swagger-ui-bundle-http.js' %}"></script>
+{% endif %}
     <script src="{% static 'swagger-ui-standalone-preset.js' %}"></script>
     <script src="{% static 'drf-yasg/insQ.min.js' %}"></script>
     <script src="{% static 'drf-yasg/immutable.min.js' %}"></script>
