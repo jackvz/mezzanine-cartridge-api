@@ -37,15 +37,15 @@ Install [Python](https://www.python.org/)
 
 Install Mezzanine and Cartridge:
 ```bash
-pip3 install mezzanine
-pip3 install cartridge
+pip install mezzanine
+pip install cartridge
 ```
 
 Create a new Mezzanine project with Cartridge, and set up a clean development database by running:
 ```bash
 mezzanine-project -a cartridge [project-name]
 cd [project_name]
-python3 manage.py createdb --noinput --nodata
+python manage.py createdb --noinput --nodata
 ```
 
 You may need to set ALLOWED_HOSTS, DATABASES and SHOP_CURRENCY_LOCALE in your project's settings.py file before creating the database.
@@ -65,8 +65,8 @@ Start a Python [virtual environment](https://virtualenv.pypa.io/en/latest/), ins
 ```bash
 virtualenv env
 source env/bin/activate
-pip3 install -r requirements.txt
-python3 manage.py runserver
+pip install -r requirements.txt
+python manage.py runserver
 ```
 
 Then see the following section on adding to an existing installation.
@@ -75,7 +75,7 @@ Then see the following section on adding to an existing installation.
 
 With Mezzanine and Cartridge installed, add the package to your project's requirements.txt file:
 
-    mezzanine-cartridge-api==1.1.3
+    mezzanine-cartridge-api
 
 Add the following to installed apps and middleware in your project's settings.py file:
 
@@ -117,8 +117,8 @@ Start the Python virtual environment, install the requirements and run the devel
 ```bash
 virtualenv env
 source env/bin/activate
-pip3 install -r requirements.txt
-python3 manage.py runserver
+pip install -r requirements.txt
+python manage.py runserver
 ```
 
 ## Configuration
