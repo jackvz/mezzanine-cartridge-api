@@ -13,7 +13,7 @@ deploy:
     # All changes in the master branch are deployed to Test PyPI
     master: https://test.pypi.org/legacy
     # All changes in the production branch are deployed to PyPI
-    production: https://pypi.python.org/pypi
+    production: https://upload.pypi.org/legacy/
   user: jackvanzyl
   password:
     secure: dBG2ptp9aWj2qzVETcJ6yP/Tpy9YkjqQlB48gnPuM3w42xSlwWZ4s0h+6jHT93KlM+gdr2uPqp1fKRjjmlws162zWDxIKzRG46NSwJE2jcDnOqwQPJyBzYPajF53fw3wlMDpHXninUIj9QScjvja9GBkh/dyTaGE+OOBeksYPN+5NyVAPZAHKK2A8nNQC5J57EAHsQeI3S0aEJS6iYGEwtp4RIWD1V5xE+5BEi/P4lt65YuTT0eiuoUmLVv7zyuAkRtMJrTyGEcSNh9fGmhi6hQazavXuLe3RCBkzHFNucwzTqOhbZH1aoqae7mQ9kbK5G+fNhCAkEi3j8JJ7ES2KXNiNmnpISpw+WccfnbA7kK9CXxxRsVMi9VWMzogXaoXYZOgG38BY7ad+uhhH0Xtjh9uRUK3toWkZkWfbo2RJgCXpDfinj9PtuDaSPZ2QjopBpF3krp6xjNena6MkxJj7Kbwb7jg3yatXw+EmtbpqYfPMdEJxMSPxW/Sq+eMkIzumSC6IBo5U00A2R1N35HA/X/WmBzXfj0+UrSvka9DBcR42SRK9TzzGWHo1phc1Jhrb1f1d56fl7ELygsSV4Mp0v/6cqm1vCjNWQ9i+P9WhgtoQMALNP9T36CMQCW2xJL4FAvoAN5uZf8/NWgCz2Ax4eeN/HNFr7fsSwqqGe707go=
