@@ -249,5 +249,5 @@ class MezzanineCartridgeApiTestCase(TestCase):
         self.assertEqual(settings.SWAGGER_SCHEME_HTTPS, False)
 
     def test_swagger_renderer(self):
-        self.assertEqual(SwaggerUIRendererWithCorrectScheme.template, 'swagger-ui-http.html')
+        self.assertEqual(SwaggerUIRendererWithAllSchemes.template, 'swagger-ui-all-schemes.html')
 

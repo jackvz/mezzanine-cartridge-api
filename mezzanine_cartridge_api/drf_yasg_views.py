@@ -21,9 +21,9 @@ from .drf_yasg_renderers import *
 
 SPEC_RENDERERS = (SwaggerYAMLRenderer, SwaggerJSONRenderer, OpenAPIRenderer)
 UI_RENDERERS = {
-    'swagger': (SwaggerUIRendererWithCorrectScheme, ReDocRenderer),
-    'redoc': (ReDocRenderer, SwaggerUIRendererWithCorrectScheme),
-    'redoc-old': (ReDocOldRenderer, ReDocRenderer, SwaggerUIRendererWithCorrectScheme),
+    'swagger': (SwaggerUIRendererWithAllSchemes, ReDocRenderer),
+    'redoc': (ReDocRenderer, SwaggerUIRendererWithAllSchemes),
+    'redoc-old': (ReDocOldRenderer, ReDocRenderer, SwaggerUIRendererWithAllSchemes),
 }
 
 

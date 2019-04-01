@@ -13,7 +13,13 @@ setuptools.setup(
     long_description_content_type = 'text/markdown',
     url = 'https://github.com/jackvz/mezzanine-cartridge-api',
     packages = setuptools.find_packages(),
-    data_files=[('readme', ['readme.md']), ('templates', ['mezzanine_cartridge_api/templates/swagger-ui-http.html'])],
+    data_files=[('readme', ['readme.md']), 
+        ('templates', ['mezzanine_cartridge_api/templates/swagger-ui-all-schemes.html'])
+        ('static', [
+            'mezzanine_cartridge_api/static/swagger-ui-bundle.js',
+            'mezzanine_cartridge_api/static/swagger-ui-standalone-preset.js',
+        ])
+    ],
     include_package_data=True,
     install_requires=[
         'django-custom-settings==0.1.4',

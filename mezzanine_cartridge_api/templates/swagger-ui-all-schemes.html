@@ -39,13 +39,13 @@
 <script id="oauth2-config" type="application/json">{{ oauth2_config | safe }}</script>
 
 {% block main_scripts %}
-    <script src="{% static 'drf-yasg/swagger-ui-dist/swagger-ui-bundle.js' %}"></script>
-    <script src="{% static 'drf-yasg/swagger-ui-dist/swagger-ui-standalone-preset.js' %}"></script>
+    <script src="{% static 'mezzanine_cartridge_api/static/swagger-ui-bundle.js' %}"></script>
+    <script src="{% static 'mezzanine_cartridge_api/static/swagger-ui-standalone-preset.js' %}"></script>
     <script src="{% static 'drf-yasg/insQ.min.js' %}"></script>
     <script src="{% static 'drf-yasg/immutable.min.js' %}"></script>
     <script src="{% static 'drf-yasg/url-polyfill.min.js' %}"></script>
     <script src="{% static 'drf-yasg/swagger-ui-init.js' %}"></script>
-    <script>console.log('template correctly configured'); console.log('@todo:https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/development/setting-up.md');</script>
+    <script>console.log('@todo:');</script>
 {% endblock %}
 {% block extra_scripts %}
     {# -- Add any additional scripts here -- #}
