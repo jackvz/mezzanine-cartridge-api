@@ -7,6 +7,8 @@
 
 A REST Web API for the [Mezzanine content management system](http://mezzanine.jupo.org/) with the [Cartridge](http://cartridge.jupo.org/index.html) e-commerce extension.
 
+[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/sTZBGpQ)
+
 ## Features
 
 Web API endpoints for all Mezzanine objects, including sites, users, groups, pages, blog posts and settings, and Cartridge objects, including products, categories and orders.
@@ -131,8 +133,4 @@ See the [Django REST framework settings](https://www.django-rest-framework.org/a
 
 SWAGGER_SETTINGS
 
-See the [Django REST Swagger settings](https://django-rest-swagger.readthedocs.io/en/latest/settings/)
-
-SWAGGER_SCHEME_HTTPS
-
-True or False, e.g. True for when your production API is available over HTTPS
+See the [drf-yasg Swagger settings](https://drf-yasg.readthedocs.io/en/stable/settings.html#swagger-settings)

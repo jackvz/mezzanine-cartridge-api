@@ -26,7 +26,7 @@ SWAGGER_SETTINGS = {
     'LOGIN_URL': '/admin/login/',
     'LOGOUT_URL': '/admin/logout/',
     'DOC_EXPANSION': 'list',
-    'USE_SESSION_AUTH': True,
+    'USE_SESSION_AUTH': False,
     'APIS_SORTER': 'alpha',
     'SECURITY_DEFINITIONS': {
 
@@ -34,11 +34,16 @@ SWAGGER_SETTINGS = {
         #     "type": "basic"
         # },
 
-        # "API key": {
-        #     "type": "apiKey",
-        #     "name": "api_key",
-        #     "in": "header"
-        # },
+        "API Token": {
+            "type": "apiKey",
+            "name": "Api-Token",
+            "in": "header"
+        },
+        "API Secret Key": {
+            "type": "apiKey",
+            "name": "Api-Secret-Key",
+            "in": "header"
+        },
 
         # "Password-based": {
         #     "type": "oauth2",
