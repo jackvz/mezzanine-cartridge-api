@@ -5,6 +5,8 @@ from rest_framework import routers
 
 from rest_framework import permissions
 
+from .renderers import *
+from drf_yasg.renderers import ReDocRenderer, ReDocOldRenderer
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
@@ -17,6 +19,11 @@ except RuntimeError:
 from . import views
 
 
+UI_RENDERERS = {
+    'swagger': (SwaggerUIRendererWithCorrectScheme, ReDocRenderer),
+    'redoc': (ReDocRenderer, SwaggerUIRendererWithCorrectScheme),
+    'redoc-old': (ReDocOldRenderer, ReDocRenderer, SwaggerUIRendererWithCorrectScheme),
+}
 schema_view = get_schema_view(
    openapi.Info(
       title='Mezzanine API',
