@@ -13,7 +13,10 @@ Oh, and this will work even if you're just running a blog or any other Mezzanine
 
 ## Features
 
-Web API endpoints for all Mezzanine objects, including sites, users, groups, pages, blog posts and settings, and Cartridge objects, including products, categories and orders.
+Web API methods for all Mezzanine objects, including sites, users, groups, pages, blog posts and settings, and Cartridge objects, including products, categories and orders.
+
+Additional features:
+- A user activation method, and user password creation and checking methods with password hashing.
 
 [Swagger-UI](https://swagger.io/tools/swagger-ui/) as development tool and documentation.
 
@@ -143,6 +146,6 @@ True or False: Defaults to False. True for when your API is available over HTTPS
 
 ## Notes
 
-If you are using the Swagger UI to test your API and get a message "CSRF Failed: CSRF token missing or incorrect.", be sure to log out of the Mezzanine admin console.
+If you are using the included Swagger UI to test your API and get a message "CSRF Failed: CSRF token missing or incorrect", be sure to log out of the Mezzanine admin console.
 
-If you are using the Swagger UI to test your API and get a message "TypeError: Failed to fetch", and you are running a secure site (over HTTPS), be sure to select the HTTPS scheme from the Shemes dropdown. This dropdown keeps reverting to HTTP in the Swagger UI, so you may have to select it again after making API call changes and/or selecting API endpoints.
+If you are using the included Swagger UI to test your API and get a message "TypeError: Failed to fetch", and you are running a secure site (over HTTPS), be sure to select the HTTPS scheme from the Shemes dropdown. This dropdown keeps reverting to HTTP in the Swagger UI, so you may have to select it again after making API call changes and/or selecting API methods.

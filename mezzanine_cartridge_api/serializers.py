@@ -25,6 +25,20 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = '__all__'
 
+class UserPasswordCheckSerializer(serializers.Serializer):
+    email_or_username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
+
+class UserTokenCheckSerializer(serializers.Serializer):
+    token = serializers.CharField(required=True)
+
+class UserActivationSerializer(serializers.Serializer):
+    token = serializers.CharField(required=True)
+
+class UserPasswordSetSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.ReadOnlyField()
     class Meta:
