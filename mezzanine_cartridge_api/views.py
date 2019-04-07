@@ -21,6 +21,7 @@ except:
     pass
 
 from rest_framework import viewsets, generics, status
+from rest_framework.response import Response
 from rest_framework.decorators import action
 
 from rest_framework_api_key.permissions import HasAPIKey, HasAPIKeyOrIsAuthenticated
@@ -36,6 +37,10 @@ from .serializers import *
 @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
 @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
 @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+@method_decorator(name='check_password', decorator=swagger_auto_schema(operation_description="Check password", request_body=UserPasswordCheckSerializer))
+@method_decorator(name='check_token', decorator=swagger_auto_schema(operation_description="Check token", request_body=UserTokenCheckSerializer))
+@method_decorator(name='activate', decorator=swagger_auto_schema(operation_description="Activate", request_body=UserActivationSerializer))
+@method_decorator(name='set_password', decorator=swagger_auto_schema(operation_description="Set password", request_body=UserPasswordSetSerializer))
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
