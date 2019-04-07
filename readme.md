@@ -141,3 +141,8 @@ SWAGGER_SCHEME_HTTPS
 
 True or False: Defaults to False. True for when your API is available over HTTPS.
 
+## Notes
+
+If you are using the Swagger UI to test your API and get a message "CSRF Failed: CSRF token missing or incorrect.", be sure to log out of the Mezzanine admin console.
+
+If you are using the Swagger UI to test your API and get a message "TypeError: Failed to fetch", and you are running a secure site (over HTTPS), be sure to select the HTTPS scheme from the Shemes dropdown. This dropdown keeps reverting to HTTP in the Swagger UI, so you may have to select it again after making API call changes and/or selecting API endpoints.
