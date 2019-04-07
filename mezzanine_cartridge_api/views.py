@@ -37,10 +37,10 @@ from .serializers import *
 @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
 @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
 @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
-@method_decorator(name='check_password', decorator=swagger_auto_schema(operation_description="Check password", request_body=UserPasswordCheckSerializer))
-@method_decorator(name='check_token', decorator=swagger_auto_schema(operation_description="Check token", request_body=UserTokenCheckSerializer))
-@method_decorator(name='activate', decorator=swagger_auto_schema(operation_description="Activate", request_body=UserActivationSerializer))
-@method_decorator(name='set_password', decorator=swagger_auto_schema(operation_description="Set password", request_body=UserPasswordSetSerializer))
+@method_decorator(name='check_password', decorator=swagger_auto_schema(operation_description="Check password", manual_parameters=UserPasswordCheckSerializer))
+@method_decorator(name='check_token', decorator=swagger_auto_schema(operation_description="Check token", manual_parameters=UserTokenCheckSerializer))
+@method_decorator(name='activate', decorator=swagger_auto_schema(operation_description="Activate", manual_parameters=UserActivationSerializer))
+@method_decorator(name='set_password', decorator=swagger_auto_schema(operation_description="Set password", manual_parameters=UserPasswordSetSerializer))
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
