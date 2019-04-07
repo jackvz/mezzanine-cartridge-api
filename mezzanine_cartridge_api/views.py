@@ -21,7 +21,7 @@ except:
     pass
 
 from rest_framework import viewsets, generics, status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import action
 
 from rest_framework_api_key.permissions import HasAPIKey, HasAPIKeyOrIsAuthenticated
 
