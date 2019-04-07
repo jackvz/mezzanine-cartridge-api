@@ -5,7 +5,7 @@ with open('readme.md', 'r') as fh:
 
 setuptools.setup(
     name = 'mezzanine_cartridge_api',
-    version = '1.3.5',
+    version = '1.3.6',
     author = 'Jack van Zyl',
     author_email = 'jackvanzyl@icloud.com',
     description = 'A REST Web API for Mezzanine CMS with the Cartridge e-commerce extension',

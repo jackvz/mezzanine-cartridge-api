@@ -61,7 +61,10 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = UserTokenCheckSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        user = User.objects.get(id=pk)
+        try:
+            user = User.objects.get(id=pk)
+        except:
+            return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
         if not default_token_generator.check_token(user, serializer.data.get('token')):
             return Response({'token': ['Invalid token.']}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'status': 'Valid token'}, status=status.HTTP_200_OK)
@@ -71,7 +74,10 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = UserActivationSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        user = User.objects.get(id=pk)
+        try:
+            user = User.objects.get(id=pk)
+        except:
+            return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
         if not default_token_generator.check_token(user, serializer.data.get('token')):
             return Response({'token': ['Invalid token.']}, status=status.HTTP_400_BAD_REQUEST)
         user.is_active = True
@@ -83,7 +89,10 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = PasswordSerializer(data=request.data)
         if serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        user = User.objects.get(id=pk)
+        try:
+            user = User.objects.get(id=pk)
+        except:
+            return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
         if not user.check_password(serializer.data.get('old_password')):
             return Response({'old_password': ['Wrong password.']}, status=status.HTTP_400_BAD_REQUEST)
         user.set_password(serializer.data.get('new_password'))
