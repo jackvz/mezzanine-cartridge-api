@@ -111,7 +111,7 @@ class DiscountCodeSerializerTestCase(DiscountCodeSerializer, TestCase, SharedSer
 class SharedViewTestsMixin(object):
     def test_view(self):
          self.assertEquals(self.permission_classes, (HasAPIKey,))
-         self.assertEquals(self.http_method_names, ['head', 'get', 'post', 'put', 'delete'])
+         self.assertEquals(self.http_method_names, ['head', 'get', 'post', 'put', 'patch', 'delete'])
 
 class UserViewSetTestCase(UserViewSet, TestCase, SharedViewTestsMixin):
     def __init__(self, *args, **kwargs):
