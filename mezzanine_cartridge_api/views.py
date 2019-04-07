@@ -57,7 +57,7 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response({'status': 'Valid credentials'}, status=status.HTTP_200_OK)
 
     @action(serializer_class=UserTokenCheckSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='check-token')
-    def check_token(self, request):
+    def check_token(self, request, pk=None):
         serializer = UserTokenCheckSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -66,7 +66,7 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response({'status': 'Valid token'}, status=status.HTTP_200_OK)
 
     @action(serializer_class=UserActivationSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='activate')
-    def activate(self, request):
+    def activate(self, request, pk=None):
         serializer = UserActivationSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -77,7 +77,7 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response({'status': 'User activated'}, status=status.HTTP_200_OK)
 
     @action(serializer_class=UserPasswordSetSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='set-password')
-    def set_password(self, request):
+    def set_password(self, request, pk=None):
         serializer = PasswordSerializer(data=request.data)
         if serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
