@@ -37,17 +37,17 @@ from .serializers import *
 @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
 @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
 @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
-@method_decorator(name='check_password', decorator=swagger_auto_schema(operation_description="Check password", manual_parameters=UserPasswordCheckSerializer))
-@method_decorator(name='check_token', decorator=swagger_auto_schema(operation_description="Check token", manual_parameters=UserTokenCheckSerializer))
-@method_decorator(name='activate', decorator=swagger_auto_schema(operation_description="Activate", manual_parameters=UserActivationSerializer))
-@method_decorator(name='set_password', decorator=swagger_auto_schema(operation_description="Set password", manual_parameters=UserPasswordSetSerializer))
+@method_decorator(name='check_password', decorator=swagger_auto_schema(operation_description="Check password", request_body=UserPasswordCheckSerializer))
+@method_decorator(name='check_token', decorator=swagger_auto_schema(operation_description="Check token", request_body=UserTokenCheckSerializer))
+@method_decorator(name='activate', decorator=swagger_auto_schema(operation_description="Activate", request_body=UserActivationSerializer))
+@method_decorator(name='set_password', decorator=swagger_auto_schema(operation_description="Set password", request_body=UserPasswordSetSerializer))
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (HasAPIKey,)
     http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
 
-    @action(serializer_class=UserPasswordCheckSerializer, methods=['get'], detail=False, permission_classes=(HasAPIKey,), url_path='check-password')
+    @action(serializer_class=UserPasswordCheckSerializer, methods=['post'], detail=False, permission_classes=(HasAPIKey,), url_path='check-password')
     def check_password(self, request):
         serializer = UserPasswordCheckSerializer(data=request.data)
         if not serializer.is_valid():
