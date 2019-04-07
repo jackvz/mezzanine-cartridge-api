@@ -57,19 +57,21 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response({'status': 'Valid credentials'}, status=status.HTTP_200_OK)
 
     @action(serializer_class=UserTokenCheckSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='check-token')
-    def check_token(self, request, pk=None):
+    def check_token(self, request, pk):
         serializer = UserTokenCheckSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        user = User.objects.get(id=pk)
         if not default_token_generator.check_token(user, serializer.data.get('token')):
             return Response({'token': ['Invalid token.']}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'status': 'Valid token'}, status=status.HTTP_200_OK)
 
     @action(serializer_class=UserActivationSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='activate')
-    def activate(self, request, pk=None):
+    def activate(self, request, pk):
         serializer = UserActivationSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        user = User.objects.get(id=pk)
         if not default_token_generator.check_token(user, serializer.data.get('token')):
             return Response({'token': ['Invalid token.']}, status=status.HTTP_400_BAD_REQUEST)
         user.is_active = True
@@ -77,10 +79,11 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response({'status': 'User activated'}, status=status.HTTP_200_OK)
 
     @action(serializer_class=UserPasswordSetSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='set-password')
-    def set_password(self, request, pk=None):
+    def set_password(self, request, pk):
         serializer = PasswordSerializer(data=request.data)
         if serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        user = User.objects.get(id=pk)
         if not user.check_password(serializer.data.get('old_password')):
             return Response({'old_password': ['Wrong password.']}, status=status.HTTP_400_BAD_REQUEST)
         user.set_password(serializer.data.get('new_password'))
