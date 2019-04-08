@@ -361,7 +361,7 @@ try:
             request_front.session = serializer.data.get('additional_session_items')
             request_front.session['cart'] = pk
             request_front.cart = cart
-            billship_handler(request_front, None)
+            billship_handler(request_front, form=None, order=None)
             return Response({'status': 'Billing/Shipping handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=CartTaxSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='tax')
@@ -371,6 +371,7 @@ try:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             try:
                 cart = Cart.objects.get(id=pk)
+                order = Order.objects.get(id=serializer.data.get('order_id'))
             except:
                 return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
             handler = lambda s: import_dotted_path(s) if s else lambda *args: None
@@ -379,7 +380,7 @@ try:
             request_front.session = serializer.data.get('additional_session_items')
             request_front.session['cart'] = pk
             request_front.cart = cart
-            tax_handler(request_front, None)
+            tax_handler(request_front, form=None, order)
             return Response({'status': 'Tax handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=CartPaymentSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='payment')
@@ -389,6 +390,7 @@ try:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             try:
                 cart = Cart.objects.get(id=pk)
+                order = Order.objects.get(id=serializer.data.get('order_id'))
             except:
                 return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
             handler = lambda s: import_dotted_path(s) if s else lambda *args: None
@@ -397,7 +399,7 @@ try:
             request_front.session = serializer.data.get('additional_session_items')
             request_front.session['cart'] = pk
             request_front.cart = cart
-            payment_handler(request_front, None)
+            payment_handler(request_front, form=None, order)
             return Response({'status': 'Payment handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=OrderPlacementSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='order-placement')
@@ -407,6 +409,7 @@ try:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             try:
                 cart = Cart.objects.get(id=pk)
+                order = Order.objects.get(id=serializer.data.get('order_id'))
             except:
                 return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
             handler = lambda s: import_dotted_path(s) if s else lambda *args: None
@@ -415,7 +418,7 @@ try:
             request_front.session = serializer.data.get('additional_session_items')
             request_front.session['cart'] = pk
             request_front.cart = cart
-            order_handler(request_front, None)
+            order_handler(request_front, form=None, order)
             return Response({'status': 'Order placement handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
 
