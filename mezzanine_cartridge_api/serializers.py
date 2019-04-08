@@ -19,14 +19,14 @@ except:
 from rest_framework import serializers
 
 
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
+class GroupSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     class Meta:
         model = Group
         fields = '__all__'
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     groups = GroupSerializer(many=True, read_only=True)
     class Meta:
@@ -48,42 +48,42 @@ class UserPasswordSetSerializer(serializers.Serializer):
     new_password = serializers.CharField(required=True)
 
 
-class SiteSerializer(serializers.HyperlinkedModelSerializer):
+class SiteSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     class Meta:
         model = Site
         fields = '__all__'
 
 
-class RedirectSerializer(serializers.HyperlinkedModelSerializer):
+class RedirectSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     class Meta:
         model = Redirect
         fields = '__all__'
 
 
-class SettingSerializer(serializers.HyperlinkedModelSerializer):
+class SettingSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     class Meta:
         model = Setting
         fields = '__all__'
 
 
-class PageSerializer(serializers.HyperlinkedModelSerializer):
+class PageSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     class Meta:
         model = Page
         fields = '__all__'
 
 
-class BlogCategorySerializer(serializers.HyperlinkedModelSerializer):
+class BlogCategorySerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     class Meta:
         model = BlogCategory
         fields = '__all__'
 
 
-class BlogPostSerializer(serializers.HyperlinkedModelSerializer):
+class BlogPostSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     categories = BlogCategorySerializer(many=True, read_only=True)
     class Meta:
@@ -91,14 +91,14 @@ class BlogPostSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class GalleryImageSerializer(serializers.HyperlinkedModelSerializer):
+class GalleryImageSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     class Meta:
         model = GalleryImage
         fields = '__all__'
 
 
-class GallerySerializer(serializers.HyperlinkedModelSerializer):
+class GallerySerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     images = GalleryImageSerializer(many=True, read_only=True)
     class Meta:
@@ -106,21 +106,21 @@ class GallerySerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class ThreadedCommentSerializer(serializers.HyperlinkedModelSerializer):
+class ThreadedCommentSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     class Meta:
         model = ThreadedComment
         fields = '__all__'
 
 
-class AssignedKeywordSerializer(serializers.HyperlinkedModelSerializer):
+class AssignedKeywordSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     class Meta:
         model = AssignedKeyword
         fields = '__all__'
 
 
-class RatingSerializer(serializers.HyperlinkedModelSerializer):
+class RatingSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     class Meta:
         model = Rating
@@ -129,28 +129,28 @@ class RatingSerializer(serializers.HyperlinkedModelSerializer):
 
 # Conditionally include Cartridge models, if the Cartridge package is installed
 try:
-    class ProductImageSerializer(serializers.HyperlinkedModelSerializer):
+    class ProductImageSerializer(serializers.ModelSerializer):
         id = serializers.ReadOnlyField()
         class Meta:
             model = ProductImage
             fields = '__all__'
 
 
-    class ProductOptionSerializer(serializers.HyperlinkedModelSerializer):
+    class ProductOptionSerializer(serializers.ModelSerializer):
         id = serializers.ReadOnlyField()
         class Meta:
             model = ProductOption
             fields = '__all__'
 
 
-    class ProductVariationSerializer(serializers.HyperlinkedModelSerializer):
+    class ProductVariationSerializer(serializers.ModelSerializer):
         id = serializers.ReadOnlyField()
         class Meta:
             model = ProductVariation
             fields = '__all__'
 
 
-    class ProductSerializer(serializers.HyperlinkedModelSerializer):
+    class ProductSerializer(serializers.ModelSerializer):
         id = serializers.ReadOnlyField()
         images = ProductImageSerializer(many=True, read_only=True)
         options = ProductOptionSerializer(many=True, read_only=True)
@@ -160,7 +160,7 @@ try:
             fields = '__all__'
 
 
-    class CategorySerializer(serializers.HyperlinkedModelSerializer):
+    class CategorySerializer(serializers.ModelSerializer):
         id = serializers.ReadOnlyField()
         products = ProductSerializer(many=True, read_only=True)
         class Meta:
@@ -168,14 +168,14 @@ try:
             fields = '__all__'
 
 
-    class CartItemSerializer(serializers.HyperlinkedModelSerializer):
+    class CartItemSerializer(serializers.ModelSerializer):
         id = serializers.ReadOnlyField()
         class Meta:
             model = CartItem
             fields = '__all__'
 
 
-    class CartSerializer(serializers.HyperlinkedModelSerializer):
+    class CartSerializer(serializers.ModelSerializer):
         id = serializers.ReadOnlyField()
         items = CartItemSerializer(many=True, read_only=True)
         class Meta:
@@ -198,14 +198,14 @@ try:
         additional_session_items = serializers.DictField(required=False)
 
 
-    class OrderItemSerializer(serializers.HyperlinkedModelSerializer):
+    class OrderItemSerializer(serializers.ModelSerializer):
         id = serializers.ReadOnlyField()
         class Meta:
             model = OrderItem
             fields = '__all__'
 
 
-    class OrderSerializer(serializers.HyperlinkedModelSerializer):
+    class OrderSerializer(serializers.ModelSerializer):
         id = serializers.ReadOnlyField()
         items = OrderItemSerializer(many=True, read_only=True)
         class Meta:
@@ -213,14 +213,14 @@ try:
             fields = '__all__'
 
 
-    class SaleSerializer(serializers.HyperlinkedModelSerializer):
+    class SaleSerializer(serializers.ModelSerializer):
         id = serializers.ReadOnlyField()
         class Meta:
             model = Sale
             fields = '__all__'
 
 
-    class DiscountCodeSerializer(serializers.HyperlinkedModelSerializer):
+    class DiscountCodeSerializer(serializers.ModelSerializer):
         id = serializers.ReadOnlyField()
         class Meta:
             model = DiscountCode
