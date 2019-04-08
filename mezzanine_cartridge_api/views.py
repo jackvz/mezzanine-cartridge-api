@@ -86,7 +86,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(serializer_class=UserPasswordSetSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='set-password')
     def set_password(self, request, pk):
-        serializer = PasswordSerializer(data=request.data)
+        serializer = UserPasswordSetSerializer(data=request.data)
         if serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         try:
