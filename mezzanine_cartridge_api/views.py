@@ -361,7 +361,7 @@ try:
             request_front.session = serializer.data.get('additional_session_items')
             request_front.session['cart'] = pk
             request_front.cart = cart
-            billship_handler(request_front)
+            billship_handler(request_front, None)
             return Response({'status': 'Billing/Shipping handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=CartTaxSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='tax')
@@ -380,7 +380,7 @@ try:
             request_front.session = serializer.data.get('additional_session_items')
             request_front.session['cart'] = pk
             request_front.cart = cart
-            tax_handler(request_front, form=None, order=order)
+            tax_handler(request_front, None, order)
             return Response({'status': 'Tax handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=CartPaymentSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='payment')
@@ -399,7 +399,7 @@ try:
             request_front.session = serializer.data.get('additional_session_items')
             request_front.session['cart'] = pk
             request_front.cart = cart
-            payment_handler(request_front, form=None, order=order)
+            payment_handler(request_front, None, order)
             return Response({'status': 'Payment handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=OrderPlacementSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='order-placement')
@@ -418,7 +418,7 @@ try:
             request_front.session = serializer.data.get('additional_session_items')
             request_front.session['cart'] = pk
             request_front.cart = cart
-            order_handler(request_front, form=None, order=order)
+            order_handler(request_front, None, order)
             return Response({'status': 'Order placement handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
 
