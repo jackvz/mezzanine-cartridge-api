@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth import authenticate
 from django.contrib.auth.tokens import default_token_generator
 
@@ -356,7 +358,7 @@ try:
             request_front.cart = Cart.objects.from_request(request)
             request_front.session = serializer.data.get('session')
             billship_handler(request_front, None)
-            return Response({'status': 'Billing/Shipping handler executed'}, status=status.HTTP_200_OK)
+            return Response({'status': 'Billing/Shipping handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=CartTaxSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='tax')
         def tax(self, request, pk):
@@ -373,7 +375,7 @@ try:
             request_front.cart = Cart.objects.from_request(request)
             request_front.session = serializer.data.get('session')
             tax_handler(request_front, None)
-            return Response({'status': 'Tax handler executed'}, status=status.HTTP_200_OK)
+            return Response({'status': 'Tax handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=CartPaymentSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='payment')
         def payment(self, request, pk):
@@ -390,7 +392,7 @@ try:
             request_front.cart = Cart.objects.from_request(request)
             request_front.session = serializer.data.get('session')
             payment_handler(request_front, None)
-            return Response({'status': 'Payment handler executed'}, status=status.HTTP_200_OK)
+            return Response({'status': 'Payment handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=OrderPlacementSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='order-placement')
         def order_placement(self, request, pk):
@@ -407,7 +409,7 @@ try:
             request_front.cart = Cart.objects.from_request(request)
             request_front.session = serializer.data.get('session')
             order_handler(request_front, None)
-            return Response({'status': 'Order placement handler executed'}, status=status.HTTP_200_OK)
+            return Response({'status': 'Order placement handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
 
     @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))

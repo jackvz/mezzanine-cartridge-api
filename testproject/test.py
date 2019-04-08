@@ -90,6 +90,14 @@ class CategorySerializerTestCase(CategorySerializer, TestCase, SharedSerializerT
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
 
+class CartSerializerTestCase(CartSerializer, TestCase, SharedSerializerTestsMixin):
+    def __init__(self, *args, **kwargs):
+        TestCase.__init__(self, *args, **kwargs)
+
+class CartItemSerializerTestCase(CartItemSerializer, TestCase, SharedSerializerTestsMixin):
+    def __init__(self, *args, **kwargs):
+        TestCase.__init__(self, *args, **kwargs)
+
 class OrderSerializerTestCase(OrderSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
@@ -182,6 +190,14 @@ class ProductVariationViewSetTestCase(ProductVariationViewSet, TestCase, SharedV
         TestCase.__init__(self, *args, **kwargs)
 
 class CategoryViewSetTestCase(CategoryViewSet, TestCase, SharedViewTestsMixin):
+    def __init__(self, *args, **kwargs):
+        TestCase.__init__(self, *args, **kwargs)
+
+class CartViewSetTestCase(CartViewSet, TestCase, SharedViewTestsMixin):
+    def __init__(self, *args, **kwargs):
+        TestCase.__init__(self, *args, **kwargs)
+
+class CartItemViewSetTestCase(CartItemViewSet, TestCase, SharedViewTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
 
