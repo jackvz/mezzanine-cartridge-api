@@ -168,16 +168,16 @@ try:
             fields = '__all__'
 
     class CartBillingShippingSerializer(serializers.Serializer):
-        session = serializers.DictField(required=False)
+        session_front = serializers.DictField(required=False)
 
     class CartTaxSerializer(serializers.Serializer):
-        session = serializers.DictField(required=False)
+        session_front = serializers.DictField(required=False)
 
     class CartPaymentSerializer(serializers.Serializer):
-        session = serializers.DictField(required=False)
+        session_front = serializers.DictField(required=False)
 
     class OrderPlacementSerializer(serializers.Serializer):
-        session = serializers.DictField(required=False)
+        session_front = serializers.DictField(required=False)
 
 
     class CartItemSerializer(serializers.HyperlinkedModelSerializer):

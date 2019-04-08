@@ -356,9 +356,9 @@ try:
             billship_handler = handler(settings.SHOP_HANDLER_BILLING_SHIPPING)
             request_front.session['cart'] = request.cart.pk
             request_front.cart = Cart.objects.from_request(request)
-            request_front.session = serializer.data.get('session')
+            request_front.session = serializer.data.get('session_front')
             billship_handler(request_front, None)
-            return Response({'status': 'Billing/Shipping handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
+            return Response({'status': 'Billing/Shipping handler executed', 'session_front': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=CartTaxSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='tax')
         def tax(self, request, pk):
@@ -373,9 +373,9 @@ try:
             tax_handler = handler(settings.SHOP_HANDLER_TAX)
             request_front.session['cart'] = request.cart.pk
             request_front.cart = Cart.objects.from_request(request)
-            request_front.session = serializer.data.get('session')
+            request_front.session = serializer.data.get('session_front')
             tax_handler(request_front, None)
-            return Response({'status': 'Tax handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
+            return Response({'status': 'Tax handler executed', 'session_front': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=CartPaymentSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='payment')
         def payment(self, request, pk):
@@ -390,9 +390,9 @@ try:
             payment_handler = handler(settings.SHOP_HANDLER_PAYMENT)
             request_front.session['cart'] = request.cart.pk
             request_front.cart = Cart.objects.from_request(request)
-            request_front.session = serializer.data.get('session')
+            request_front.session = serializer.data.get('session_front')
             payment_handler(request_front, None)
-            return Response({'status': 'Payment handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
+            return Response({'status': 'Payment handler executed', 'session_front': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=OrderPlacementSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='order-placement')
         def order_placement(self, request, pk):
@@ -407,9 +407,9 @@ try:
             order_handler = handler(settings.SHOP_HANDLER_ORDER)
             request_front.session['cart'] = request.cart.pk
             request_front.cart = Cart.objects.from_request(request)
-            request_front.session = serializer.data.get('session')
+            request_front.session = serializer.data.get('session_front')
             order_handler(request_front, None)
-            return Response({'status': 'Order placement handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
+            return Response({'status': 'Order placement handler executed', 'session_front': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
 
     @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
