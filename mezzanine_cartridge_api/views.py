@@ -1,11 +1,12 @@
-import json
-
 from django.contrib.auth import authenticate
 from django.contrib.auth.tokens import default_token_generator
 
 from django.contrib.auth.models import User, Group
 from django.contrib.sites.models import Site
 from django.contrib.redirects.models import Redirect
+
+from django.http import HttpRequest
+
 from django.utils.decorators import method_decorator
 
 from mezzanine.conf.models import Setting
@@ -21,6 +22,8 @@ try:
     from cartridge.shop.models import Product, ProductImage, ProductOption, ProductVariation, Category, Cart, CartItem, Order, OrderItem, Discount, Sale, DiscountCode
 except:
     pass
+
+import json
 
 from rest_framework import viewsets, generics, status
 from rest_framework.response import Response
@@ -354,11 +357,12 @@ try:
                 return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
             handler = lambda s: import_dotted_path(s) if s else lambda *args: None
             billship_handler = handler(settings.SHOP_HANDLER_BILLING_SHIPPING)
+            request_front = HttpRequest()
+            request_front.session = serializer.data.get('additional_session_items')
             request_front.session['cart'] = request.cart.pk
             request_front.cart = Cart.objects.from_request(request)
-            request_front.session = serializer.data.get('session_front')
             billship_handler(request_front, None)
-            return Response({'status': 'Billing/Shipping handler executed', 'session_front': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
+            return Response({'status': 'Billing/Shipping handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=CartTaxSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='tax')
         def tax(self, request, pk):
@@ -371,11 +375,12 @@ try:
                 return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
             handler = lambda s: import_dotted_path(s) if s else lambda *args: None
             tax_handler = handler(settings.SHOP_HANDLER_TAX)
+            request_front = HttpRequest()
+            request_front.session = serializer.data.get('additional_session_items')
             request_front.session['cart'] = request.cart.pk
             request_front.cart = Cart.objects.from_request(request)
-            request_front.session = serializer.data.get('session_front')
             tax_handler(request_front, None)
-            return Response({'status': 'Tax handler executed', 'session_front': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
+            return Response({'status': 'Tax handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=CartPaymentSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='payment')
         def payment(self, request, pk):
@@ -388,11 +393,12 @@ try:
                 return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
             handler = lambda s: import_dotted_path(s) if s else lambda *args: None
             payment_handler = handler(settings.SHOP_HANDLER_PAYMENT)
+            request_front = HttpRequest()
+            request_front.session = serializer.data.get('additional_session_items')
             request_front.session['cart'] = request.cart.pk
             request_front.cart = Cart.objects.from_request(request)
-            request_front.session = serializer.data.get('session_front')
             payment_handler(request_front, None)
-            return Response({'status': 'Payment handler executed', 'session_front': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
+            return Response({'status': 'Payment handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=OrderPlacementSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='order-placement')
         def order_placement(self, request, pk):
@@ -405,11 +411,12 @@ try:
                 return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
             handler = lambda s: import_dotted_path(s) if s else lambda *args: None
             order_handler = handler(settings.SHOP_HANDLER_ORDER)
+            request_front = HttpRequest()
+            request_front.session = serializer.data.get('additional_session_items')
             request_front.session['cart'] = request.cart.pk
             request_front.cart = Cart.objects.from_request(request)
-            request_front.session = serializer.data.get('session_front')
             order_handler(request_front, None)
-            return Response({'status': 'Order placement handler executed', 'session_front': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
+            return Response({'status': 'Order placement handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
 
     @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
