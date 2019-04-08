@@ -361,7 +361,7 @@ try:
             request_front.session = serializer.data.get('additional_session_items')
             request_front.session['cart'] = pk
             request_front.cart = cart
-            billship_handler(request_front, form=None, order=None)
+            billship_handler(request_front, order=None)
             return Response({'status': 'Billing/Shipping handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=CartTaxSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='tax')
