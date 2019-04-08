@@ -359,8 +359,8 @@ try:
             billship_handler = handler(settings.SHOP_HANDLER_BILLING_SHIPPING)
             request_front = HttpRequest()
             request_front.session = serializer.data.get('additional_session_items')
-            request_front.session['cart'] = request.cart.pk
-            request_front.cart = Cart.objects.from_request(request)
+            request_front.session['cart'] = pk
+            request_front.cart = cart
             billship_handler(request_front, None)
             return Response({'status': 'Billing/Shipping handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
@@ -377,8 +377,8 @@ try:
             tax_handler = handler(settings.SHOP_HANDLER_TAX)
             request_front = HttpRequest()
             request_front.session = serializer.data.get('additional_session_items')
-            request_front.session['cart'] = request.cart.pk
-            request_front.cart = Cart.objects.from_request(request)
+            request_front.session['cart'] = pk
+            request_front.cart = cart
             tax_handler(request_front, None)
             return Response({'status': 'Tax handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
@@ -395,8 +395,8 @@ try:
             payment_handler = handler(settings.SHOP_HANDLER_PAYMENT)
             request_front = HttpRequest()
             request_front.session = serializer.data.get('additional_session_items')
-            request_front.session['cart'] = request.cart.pk
-            request_front.cart = Cart.objects.from_request(request)
+            request_front.session['cart'] = pk
+            request_front.cart = cart
             payment_handler(request_front, None)
             return Response({'status': 'Payment handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
@@ -413,8 +413,8 @@ try:
             order_handler = handler(settings.SHOP_HANDLER_ORDER)
             request_front = HttpRequest()
             request_front.session = serializer.data.get('additional_session_items')
-            request_front.session['cart'] = request.cart.pk
-            request_front.cart = Cart.objects.from_request(request)
+            request_front.session['cart'] = pk
+            request_front.cart = cart
             order_handler(request_front, None)
             return Response({'status': 'Order placement handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
