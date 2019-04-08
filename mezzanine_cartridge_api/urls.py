@@ -52,6 +52,8 @@ try:
   router.register(r'productoption', views.ProductOptionViewSet)
   router.register(r'productvariation', views.ProductVariationViewSet)
   router.register(r'category', views.CategoryViewSet)
+  router.register(r'cart', views.CartViewSet)
+  router.register(r'cartitem', views.CartItemViewSet)
   router.register(r'order', views.OrderViewSet)
   router.register(r'orderitem', views.OrderItemViewSet)
   router.register(r'sale', views.SaleViewSet)
