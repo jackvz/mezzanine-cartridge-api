@@ -16,7 +16,7 @@ from mezzanine.generic.models import ThreadedComment, AssignedKeyword, Rating
 
 # Conditionally include Cartridge viewsets, if the Cartridge package is installed
 try:
-    from cartridge.shop.models import Product, ProductImage, ProductOption, ProductVariation, Category, Order, OrderItem, Discount, Sale, DiscountCode
+    from cartridge.shop.models import Product, ProductImage, ProductOption, ProductVariation, Category, Cart, CartItem, Order, OrderItem, Discount, Sale, DiscountCode
 except:
     pass
 
@@ -27,6 +27,9 @@ from rest_framework.decorators import action
 from rest_framework_api_key.permissions import HasAPIKey, HasAPIKeyOrIsAuthenticated
 
 from drf_yasg.utils import swagger_auto_schema
+
+from mezzanine.conf import settings
+from mezzanine.utils.importing import import_dotted_path
 
 from .serializers import *
 
@@ -98,6 +101,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user.set_password(serializer.data.get('new_password'))
         user.save()
         return Response({'status': 'Password set'}, status=status.HTTP_200_OK)
+
 
 @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
 @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
@@ -317,6 +321,104 @@ try:
     class CategoryViewSet(viewsets.ModelViewSet):
         queryset = Category.objects.all()
         serializer_class = CategorySerializer
+        permission_classes = (HasAPIKey,)
+        http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+
+
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
+    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    @method_decorator(name='billing_shipping', decorator=swagger_auto_schema(operation_description="Execute billing/shipping handler", request_body=CartBillingShippingSerializer))
+    @method_decorator(name='tax', decorator=swagger_auto_schema(operation_description="Execute tax handler", request_body=CartTaxSerializer))
+    @method_decorator(name='payment', decorator=swagger_auto_schema(operation_description="Execute payment handler", request_body=CartPaymentSerializer))
+    @method_decorator(name='order_placement', decorator=swagger_auto_schema(operation_description="Execute order placement handler", request_body=OrderPlacementSerializer))
+    class CartViewSet(viewsets.ModelViewSet):
+        queryset = Cart.objects.all()
+        serializer_class = CartSerializer
+        permission_classes = (HasAPIKey,)
+        http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+
+        @action(serializer_class=CartBillingShippingSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='billing-shipping')
+        def billing_shipping(self, request, pk):
+            serializer = CartBillingShippingSerializer(data=request.data)
+            if not serializer.is_valid():
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            try:
+                cart = Cart.objects.get(id=pk)
+            except:
+                return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
+            handler = lambda s: import_dotted_path(s) if s else lambda *args: None
+            billship_handler = handler(settings.SHOP_HANDLER_BILLING_SHIPPING)
+            request_front.session['cart'] = request.cart.pk
+            request_front.cart = Cart.objects.from_request(request)
+            request_front.session = serializer.data.get('session')
+            billship_handler(request_front, None)
+            return Response({'status': 'Billing/Shipping handler executed'}, status=status.HTTP_200_OK)
+
+        @action(serializer_class=CartTaxSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='tax')
+        def tax(self, request, pk):
+            serializer = CartTaxSerializer(data=request.data)
+            if not serializer.is_valid():
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            try:
+                cart = Cart.objects.get(id=pk)
+            except:
+                return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
+            handler = lambda s: import_dotted_path(s) if s else lambda *args: None
+            tax_handler = handler(settings.SHOP_HANDLER_TAX)
+            request_front.session['cart'] = request.cart.pk
+            request_front.cart = Cart.objects.from_request(request)
+            request_front.session = serializer.data.get('session')
+            tax_handler(request_front, None)
+            return Response({'status': 'Tax handler executed'}, status=status.HTTP_200_OK)
+
+        @action(serializer_class=CartPaymentSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='payment')
+        def payment(self, request, pk):
+            serializer = CartPaymentSerializer(data=request.data)
+            if not serializer.is_valid():
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            try:
+                cart = Cart.objects.get(id=pk)
+            except:
+                return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
+            handler = lambda s: import_dotted_path(s) if s else lambda *args: None
+            payment_handler = handler(settings.SHOP_HANDLER_PAYMENT)
+            request_front.session['cart'] = request.cart.pk
+            request_front.cart = Cart.objects.from_request(request)
+            request_front.session = serializer.data.get('session')
+            payment_handler(request_front, None)
+            return Response({'status': 'Payment handler executed'}, status=status.HTTP_200_OK)
+
+        @action(serializer_class=OrderPlacementSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='order-placement')
+        def order_placement(self, request, pk):
+            serializer = OrderPlacementSerializer(data=request.data)
+            if not serializer.is_valid():
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            try:
+                cart = Cart.objects.get(id=pk)
+            except:
+                return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
+            handler = lambda s: import_dotted_path(s) if s else lambda *args: None
+            order_handler = handler(settings.SHOP_HANDLER_ORDER)
+            request_front.session['cart'] = request.cart.pk
+            request_front.cart = Cart.objects.from_request(request)
+            request_front.session = serializer.data.get('session')
+            order_handler(request_front, None)
+            return Response({'status': 'Order placement handler executed'}, status=status.HTTP_200_OK)
+
+
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
+    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    class CartItemViewSet(viewsets.ModelViewSet):
+        queryset = CartItem.objects.all()
+        serializer_class = CartItemSerializer
         permission_classes = (HasAPIKey,)
         http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
 

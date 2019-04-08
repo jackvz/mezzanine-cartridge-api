@@ -13,10 +13,11 @@ Oh, and this will work even if you're just running a blog or any other Mezzanine
 
 ## Features
 
-Web API methods for all Mezzanine objects, including sites, users, groups, pages, blog posts and settings, and Cartridge objects, including products, categories and orders.
+Web API methods for all Mezzanine objects, including sites, users, groups, pages, blog posts and settings, and Cartridge objects, including products, categories, carts and orders.
 
 Additional features:
 - A user activation method, and user password creation and checking methods with password hashing.
+- Methods for e-commerce customisation: Handlers for billing/shipping, tax, payment and order placement, to execute any customisation work done in the Mezzanine site installation.
 
 [Swagger-UI](https://swagger.io/tools/swagger-ui/) as development tool and documentation.
 

@@ -39,11 +39,13 @@ class UserPasswordSetSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
 
+
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.ReadOnlyField()
     class Meta:
         model = Group
         fields = '__all__'
+
 
 class SiteSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.ReadOnlyField()
@@ -51,11 +53,13 @@ class SiteSerializer(serializers.HyperlinkedModelSerializer):
         model = Site
         fields = '__all__'
 
+
 class RedirectSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.ReadOnlyField()
     class Meta:
         model = Redirect
         fields = '__all__'
+
 
 class SettingSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.ReadOnlyField()
@@ -63,17 +67,20 @@ class SettingSerializer(serializers.HyperlinkedModelSerializer):
         model = Setting
         fields = '__all__'
 
+
 class PageSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.ReadOnlyField()
     class Meta:
         model = Page
         fields = '__all__'
 
+
 class BlogPostSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.ReadOnlyField()
     class Meta:
         model = BlogPost
         fields = '__all__'
+
 
 class BlogCategorySerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.ReadOnlyField()
@@ -151,6 +158,32 @@ try:
         id = serializers.ReadOnlyField()
         class Meta:
             model = Category
+            fields = '__all__'
+
+
+    class CartSerializer(serializers.HyperlinkedModelSerializer):
+        id = serializers.ReadOnlyField()
+        class Meta:
+            model = Cart
+            fields = '__all__'
+
+    class CartBillingShippingSerializer(serializers.Serializer):
+        session = serializers.DictField(required=False)
+
+    class CartTaxSerializer(serializers.Serializer):
+        session = serializers.DictField(required=False)
+
+    class CartPaymentSerializer(serializers.Serializer):
+        session = serializers.DictField(required=False)
+
+    class OrderPlacementSerializer(serializers.Serializer):
+        session = serializers.DictField(required=False)
+
+
+    class CartItemSerializer(serializers.HyperlinkedModelSerializer):
+        id = serializers.ReadOnlyField()
+        class Meta:
+            model = CartItem
             fields = '__all__'
 
 
