@@ -23,6 +23,8 @@ class SharedManyToManyThroughSerializerTestsMixin(object):
 class UserSerializerTestCase(UserSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_serializer(self):
+        self.assertEquals(self.Meta.exclude, ('user_permissions'))
     def test_model(self):
         self.assertEquals(self.Meta.model, User)
 
@@ -103,6 +105,7 @@ class ProductProductManyToManyThroughSerializerTestCase(ProductProductManyToMany
         TestCase.__init__(self, *args, **kwargs)
     def test_model(self):
         self.assertEquals(self.Meta.model, Product)
+        self.assertEquals(self.Meta.exclude, ('categories', 'related_products', 'upsell_products'));
 
 class ProductSerializerTestCase(ProductSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
@@ -133,6 +136,7 @@ class CategoryProductManyToManyThroughSerializerTestCase(CategoryProductManyToMa
         TestCase.__init__(self, *args, **kwargs)
     def test_model(self):
         self.assertEquals(self.Meta.model, Product)
+        self.assertEquals(self.Meta.exclude, ('categories', 'related_products', 'upsell_products'));
 
 class CategorySerializerTestCase(CategorySerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):

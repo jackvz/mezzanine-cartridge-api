@@ -31,7 +31,7 @@ class UserSerializer(serializers.ModelSerializer):
     groups = GroupSerializer(many=True, read_only=True)
     class Meta:
         model = User
-        fields = '__all__'
+        exclude = ('user_permissions')
 
 class UserPasswordCheckSerializer(serializers.Serializer):
     email_or_username = serializers.CharField(required=True)
