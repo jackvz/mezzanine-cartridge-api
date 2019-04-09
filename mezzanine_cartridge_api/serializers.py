@@ -136,9 +136,17 @@ try:
             exclude = ('categories', 'related_products', 'upsell_products')
 
 
+    class ProductOptionSerializer(serializers.ModelSerializer):
+        id = serializers.IntegerField(read_only=True)
+        class Meta:
+            model = ProductOption
+            fields = '__all__'
+
+
     class CategorySerializer(serializers.ModelSerializer):
         id = serializers.IntegerField(read_only=True)
         products = CategoryProductManyToManyThroughSerializer(many=True, read_only=True)
+        options = ProductOptionSerializer(many=True, read_only=True)
         class Meta:
             model = Category
             fields = '__all__'
@@ -148,13 +156,6 @@ try:
         id = serializers.IntegerField(read_only=True)
         class Meta:
             model = ProductImage
-            fields = '__all__'
-
-
-    class ProductOptionSerializer(serializers.ModelSerializer):
-        id = serializers.IntegerField(read_only=True)
-        class Meta:
-            model = ProductOption
             fields = '__all__'
 
 
@@ -175,7 +176,6 @@ try:
     class ProductSerializer(serializers.ModelSerializer):
         id = serializers.IntegerField(read_only=True)
         images = ProductImageSerializer(many=True, read_only=True)
-        options = ProductOptionSerializer(many=True, read_only=True)
         variations = ProductVariationSerializer(many=True, read_only=True)
         categories = CategorySerializer(many=True, read_only=True)
         related_products = ProductProductManyToManyThroughSerializer(many=True, read_only=True)
