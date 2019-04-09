@@ -24,7 +24,7 @@ class UserSerializerTestCase(UserSerializer, TestCase, SharedSerializerTestsMixi
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
     def test_serializer(self):
-        self.assertEquals(self.Meta.exclude, ('user_permissions'))
+        self.assertEquals(self.Meta.exclude, ('user_permissions',))
     def test_model(self):
         self.assertEquals(self.Meta.model, User)
 
