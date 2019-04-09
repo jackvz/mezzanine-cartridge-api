@@ -14,109 +14,161 @@ from mezzanine_cartridge_api.drf_yasg_views import *
 
 class SharedSerializerTestsMixin(object):
     def test_serializer(self):
-         self.assertEquals(self.Meta.fields, '__all__')
+        self.assertEquals(self.Meta.fields, '__all__')
+
+class SharedManyToManyThroughSerializerTestsMixin(object):
+    def test_serializer(self):
+        pass
 
 class UserSerializerTestCase(UserSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
     def test_model(self):
-        pass
+        self.assertEquals(self.Meta.model, User)
 
 class GroupSerializerTestCase(GroupSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, Group)
 
 class SiteSerializerTestCase(SiteSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, Site)
 
 class RedirectSerializerTestCase(RedirectSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, Redirect)
 
 class SettingSerializerTestCase(SettingSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, Setting)
 
 class PageSerializerTestCase(PageSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, Page)
 
 class BlogPostSerializerTestCase(BlogPostSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, BlogPost)
 
 class BlogCategorySerializerTestCase(BlogCategorySerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, BlogCategory)
 
 class GallerySerializerTestCase(GallerySerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, Gallery)
 
 class GalleryImageSerializerTestCase(GalleryImageSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, GalleryImage)
 
 class ThreadedCommentSerializerTestCase(ThreadedCommentSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, ThreadedComment)
 
 class AssignedKeywordSerializerTestCase(AssignedKeywordSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, AssignedKeyword)
 
 class RatingSerializerTestCase(RatingSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, Rating)
 
 class ProductSerializerTestCase(ProductSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, Product)
 
 class ProductImageSerializerTestCase(ProductImageSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, ProductImage)
 
 class ProductOptionSerializerTestCase(ProductOptionSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, ProductOption)
 
 class ProductVariationSerializerTestCase(ProductVariationSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, ProductVariation)
 
-class CategoryProductSerializerTestCase(CategoryProductSerializer, TestCase, SharedSerializerTestsMixin):
+class CategoryProductSerializerTestCase(CategoryProductSerializer, TestCase, SharedManyToManyThroughSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, Product)
 
 class CategorySerializerTestCase(CategorySerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, Category)
 
 class CartSerializerTestCase(CartSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, Cart)
 
 class CartItemSerializerTestCase(CartItemSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, CartItem)
 
 class OrderSerializerTestCase(OrderSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, Order)
 
 class OrderItemSerializerTestCase(OrderItemSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, OrderItem)
 
 class SaleSerializerTestCase(SaleSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, Sale)
 
 class DiscountCodeSerializerTestCase(DiscountCodeSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, DiscountCode)
 
 # Shared view tests
 
