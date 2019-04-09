@@ -155,6 +155,7 @@ try:
         images = ProductImageSerializer(many=True, read_only=True)
         options = ProductOptionSerializer(many=True, read_only=True)
         variations = ProductVariationSerializer(many=True, read_only=True)
+        categories = CategorySerializer(many=True, read_only=True)
         class Meta:
             model = Product
             fields = '__all__'
