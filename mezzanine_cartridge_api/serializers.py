@@ -20,14 +20,14 @@ from rest_framework import serializers
 
 
 class GroupSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = Group
         fields = '__all__'
 
 
 class UserSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
+    id = serializers.IntegerField(read_only=True)
     groups = GroupSerializer(many=True, read_only=True)
     class Meta:
         model = User
@@ -49,42 +49,42 @@ class UserPasswordSetSerializer(serializers.Serializer):
 
 
 class SiteSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = Site
         fields = '__all__'
 
 
 class RedirectSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = Redirect
         fields = '__all__'
 
 
 class SettingSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = Setting
         fields = '__all__'
 
 
 class PageSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = Page
         fields = '__all__'
 
 
 class BlogCategorySerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = BlogCategory
         fields = '__all__'
 
 
 class BlogPostSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
+    id = serializers.IntegerField(read_only=True)
     categories = BlogCategorySerializer(many=True, read_only=True)
     class Meta:
         model = BlogPost
@@ -92,14 +92,14 @@ class BlogPostSerializer(serializers.ModelSerializer):
 
 
 class GalleryImageSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = GalleryImage
         fields = '__all__'
 
 
 class GallerySerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
+    id = serializers.IntegerField(read_only=True)
     images = GalleryImageSerializer(many=True, read_only=True)
     class Meta:
         model = Gallery
@@ -107,21 +107,21 @@ class GallerySerializer(serializers.ModelSerializer):
 
 
 class ThreadedCommentSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = ThreadedComment
         fields = '__all__'
 
 
 class AssignedKeywordSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = AssignedKeyword
         fields = '__all__'
 
 
 class RatingSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = Rating
         fields = '__all__'
@@ -130,28 +130,28 @@ class RatingSerializer(serializers.ModelSerializer):
 # Conditionally include Cartridge models, if the Cartridge package is installed
 try:
     class ProductImageSerializer(serializers.ModelSerializer):
-        id = serializers.ReadOnlyField()
+        id = serializers.IntegerField(read_only=True)
         class Meta:
             model = ProductImage
             fields = '__all__'
 
 
     class ProductOptionSerializer(serializers.ModelSerializer):
-        id = serializers.ReadOnlyField()
+        id = serializers.IntegerField(read_only=True)
         class Meta:
             model = ProductOption
             fields = '__all__'
 
 
     class ProductVariationSerializer(serializers.ModelSerializer):
-        id = serializers.ReadOnlyField()
+        id = serializers.IntegerField(read_only=True)
         class Meta:
             model = ProductVariation
             fields = '__all__'
 
 
     class ProductSerializer(serializers.ModelSerializer):
-        id = serializers.ReadOnlyField()
+        id = serializers.IntegerField(read_only=True)
         images = ProductImageSerializer(many=True, read_only=True)
         options = ProductOptionSerializer(many=True, read_only=True)
         variations = ProductVariationSerializer(many=True, read_only=True)
@@ -161,7 +161,7 @@ try:
 
 
     class CategorySerializer(serializers.ModelSerializer):
-        id = serializers.ReadOnlyField()
+        id = serializers.IntegerField(read_only=True)
         products = ProductSerializer(many=True, read_only=True)
         class Meta:
             model = Category
@@ -169,14 +169,14 @@ try:
 
 
     class CartItemSerializer(serializers.ModelSerializer):
-        id = serializers.ReadOnlyField()
+        id = serializers.IntegerField(read_only=True)
         class Meta:
             model = CartItem
             fields = '__all__'
 
 
     class CartSerializer(serializers.ModelSerializer):
-        id = serializers.ReadOnlyField()
+        id = serializers.IntegerField(read_only=True)
         items = CartItemSerializer(many=True, read_only=True)
         class Meta:
             model = Cart
@@ -199,14 +199,14 @@ try:
 
 
     class OrderItemSerializer(serializers.ModelSerializer):
-        id = serializers.ReadOnlyField()
+        id = serializers.IntegerField(read_only=True)
         class Meta:
             model = OrderItem
             fields = '__all__'
 
 
     class OrderSerializer(serializers.ModelSerializer):
-        id = serializers.ReadOnlyField()
+        id = serializers.IntegerField(read_only=True)
         items = OrderItemSerializer(many=True, read_only=True)
         class Meta:
             model = Order
@@ -214,14 +214,14 @@ try:
 
 
     class SaleSerializer(serializers.ModelSerializer):
-        id = serializers.ReadOnlyField()
+        id = serializers.IntegerField(read_only=True)
         class Meta:
             model = Sale
             fields = '__all__'
 
 
     class DiscountCodeSerializer(serializers.ModelSerializer):
-        id = serializers.ReadOnlyField()
+        id = serializers.IntegerField(read_only=True)
         class Meta:
             model = DiscountCode
             fields = '__all__'
