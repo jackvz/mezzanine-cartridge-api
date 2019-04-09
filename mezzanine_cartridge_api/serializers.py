@@ -161,9 +161,16 @@ try:
             fields = '__all__'
 
 
+    class CategoryProductSerializer(serializers.ModelSerializer):
+        id = serializers.IntegerField(read_only=True)
+        class Meta:
+            model = Product
+            fields = '__all__'
+
+
     class CategorySerializer(serializers.ModelSerializer):
         id = serializers.IntegerField(read_only=True)
-        products = ProductSerializer(many=True, read_only=True)
+        products = CategoryProductSerializer(many=True, read_only=True)
         class Meta:
             model = Category
             fields = '__all__'

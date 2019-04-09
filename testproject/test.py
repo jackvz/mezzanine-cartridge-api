@@ -86,6 +86,10 @@ class ProductVariationSerializerTestCase(ProductVariationSerializer, TestCase, S
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
 
+class CategoryProductSerializerTestCase(CategoryProductSerializer, TestCase, SharedSerializerTestsMixin):
+    def __init__(self, *args, **kwargs):
+        TestCase.__init__(self, *args, **kwargs)
+
 class CategorySerializerTestCase(CategorySerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
