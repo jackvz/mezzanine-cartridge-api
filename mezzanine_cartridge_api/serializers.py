@@ -134,6 +134,7 @@ try:
         class Meta:
             model = Product
             fields = '__all__'
+            exclude = ('categories', )
 
 
     class CategorySerializer(serializers.ModelSerializer):
