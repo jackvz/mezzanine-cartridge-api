@@ -129,6 +129,21 @@ class RatingSerializer(serializers.ModelSerializer):
 
 # Conditionally include Cartridge models, if the Cartridge package is installed
 try:
+    class CategoryProductSerializer(serializers.ModelSerializer):
+        id = serializers.IntegerField(read_only=True)
+        class Meta:
+            model = Product
+            fields = '__all__'
+
+
+    class CategorySerializer(serializers.ModelSerializer):
+        id = serializers.IntegerField(read_only=True)
+        products = CategoryProductSerializer(many=True, read_only=True)
+        class Meta:
+            model = Category
+            fields = '__all__'
+
+
     class ProductImageSerializer(serializers.ModelSerializer):
         id = serializers.IntegerField(read_only=True)
         class Meta:
@@ -158,21 +173,6 @@ try:
         categories = CategorySerializer(many=True, read_only=True)
         class Meta:
             model = Product
-            fields = '__all__'
-
-
-    class CategoryProductSerializer(serializers.ModelSerializer):
-        id = serializers.IntegerField(read_only=True)
-        class Meta:
-            model = Product
-            fields = '__all__'
-
-
-    class CategorySerializer(serializers.ModelSerializer):
-        id = serializers.IntegerField(read_only=True)
-        products = CategoryProductSerializer(many=True, read_only=True)
-        class Meta:
-            model = Category
             fields = '__all__'
 
 
