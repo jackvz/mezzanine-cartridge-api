@@ -98,6 +98,12 @@ class RatingSerializerTestCase(RatingSerializer, TestCase, SharedSerializerTests
     def test_model(self):
         self.assertEquals(self.Meta.model, Rating)
 
+class ProductProductManyToManyThroughSerializerTestCase(ProductProductManyToManyThroughSerializer, TestCase, SharedManyToManyThroughSerializerTestsMixin):
+    def __init__(self, *args, **kwargs):
+        TestCase.__init__(self, *args, **kwargs)
+    def test_model(self):
+        self.assertEquals(self.Meta.model, Product)
+
 class ProductSerializerTestCase(ProductSerializer, TestCase, SharedSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
@@ -122,7 +128,7 @@ class ProductVariationSerializerTestCase(ProductVariationSerializer, TestCase, S
     def test_model(self):
         self.assertEquals(self.Meta.model, ProductVariation)
 
-class CategoryProductSerializerTestCase(CategoryProductSerializer, TestCase, SharedManyToManyThroughSerializerTestsMixin):
+class CategoryProductManyToManyThroughSerializerTestCase(CategoryProductManyToManyThroughSerializer, TestCase, SharedManyToManyThroughSerializerTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
     def test_model(self):

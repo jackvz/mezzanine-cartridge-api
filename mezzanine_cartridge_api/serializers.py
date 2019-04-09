@@ -129,16 +129,16 @@ class RatingSerializer(serializers.ModelSerializer):
 
 # Conditionally include Cartridge models, if the Cartridge package is installed
 try:
-    class CategoryProductSerializer(serializers.ModelSerializer):
+    class CategoryProductManyToManyThroughSerializer(serializers.ModelSerializer):
         id = serializers.IntegerField(read_only=True)
         class Meta:
             model = Product
-            exclude = ('categories', )
+            exclude = ('categories', 'related_products', 'upsell_products')
 
 
     class CategorySerializer(serializers.ModelSerializer):
         id = serializers.IntegerField(read_only=True)
-        products = CategoryProductSerializer(many=True, read_only=True)
+        products = CategoryProductManyToManyThroughSerializer(many=True, read_only=True)
         class Meta:
             model = Category
             fields = '__all__'
@@ -165,12 +165,21 @@ try:
             fields = '__all__'
 
 
+    class ProductProductManyToManyThroughSerializer(serializers.ModelSerializer):
+        id = serializers.IntegerField(read_only=True)
+        class Meta:
+            model = Product
+            exclude = ('categories', 'related_products', 'upsell_products')
+
+
     class ProductSerializer(serializers.ModelSerializer):
         id = serializers.IntegerField(read_only=True)
         images = ProductImageSerializer(many=True, read_only=True)
         options = ProductOptionSerializer(many=True, read_only=True)
         variations = ProductVariationSerializer(many=True, read_only=True)
         categories = CategorySerializer(many=True, read_only=True)
+        related_products = ProductProductManyToManyThroughSerializer(many=True, read_only=True)
+        upsell_products = ProductProductManyToManyThroughSerializer(many=True, read_only=True)
         class Meta:
             model = Product
             fields = '__all__'
