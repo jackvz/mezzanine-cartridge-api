@@ -133,7 +133,7 @@ try:
         id = serializers.IntegerField(read_only=True)
         class Meta:
             model = Product
-            exclude = ('categories', 'related_products', 'upsell_products')
+            exclude = ('images', 'options', 'variations', 'categories', 'related_products', 'upsell_products')
 
 
     class CategorySerializer(serializers.ModelSerializer):
@@ -169,7 +169,7 @@ try:
         id = serializers.IntegerField(read_only=True)
         class Meta:
             model = Product
-            exclude = ('categories', 'related_products', 'upsell_products')
+            exclude = ('images', 'options', 'variations', 'categories', 'related_products', 'upsell_products')
 
 
     class ProductSerializer(serializers.ModelSerializer):
