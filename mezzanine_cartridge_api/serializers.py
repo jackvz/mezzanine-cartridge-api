@@ -133,7 +133,6 @@ try:
         id = serializers.IntegerField(read_only=True)
         class Meta:
             model = Product
-            fields = '__all__'
             exclude = ('categories', )
 
 
