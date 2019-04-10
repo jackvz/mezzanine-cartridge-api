@@ -54,6 +54,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = (HasAPIKey,)
     http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+    paginator = None
 
     @action(serializer_class=UserPasswordCheckSerializer, methods=['post'], detail=False, permission_classes=(HasAPIKey,), url_path='check-password')
     def check_password(self, request):
@@ -119,6 +120,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
     permission_classes = (HasAPIKey,)
     http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+    paginator = None
 
 
 @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -132,6 +134,7 @@ class SiteViewSet(viewsets.ModelViewSet):
     serializer_class = SiteSerializer
     permission_classes = (HasAPIKey,)
     http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+    paginator = None
 
 
 @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -145,6 +148,7 @@ class RedirectViewSet(viewsets.ModelViewSet):
     serializer_class = RedirectSerializer
     permission_classes = (HasAPIKey,)
     http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+    paginator = None
 
 
 @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -158,6 +162,7 @@ class SettingViewSet(viewsets.ModelViewSet):
     serializer_class = SettingSerializer
     permission_classes = (HasAPIKey,)
     http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+    paginator = None
 
 
 @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -171,6 +176,7 @@ class PageViewSet(viewsets.ModelViewSet):
     serializer_class = PageSerializer
     permission_classes = (HasAPIKey,)
     http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+    paginator = None
 
 
 @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -184,6 +190,7 @@ class BlogPostViewSet(viewsets.ModelViewSet):
     serializer_class = BlogPostSerializer
     permission_classes = (HasAPIKey,)
     http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+    paginator = None
 
 
 @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -197,6 +204,7 @@ class BlogCategoryViewSet(viewsets.ModelViewSet):
     serializer_class = BlogCategorySerializer
     permission_classes = (HasAPIKey,)
     http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+    paginator = None
 
 
 @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -210,6 +218,7 @@ class GalleryViewSet(viewsets.ModelViewSet):
     serializer_class = GallerySerializer
     permission_classes = (HasAPIKey,)
     http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+    paginator = None
 
 
 @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -223,6 +232,7 @@ class GalleryImageViewSet(viewsets.ModelViewSet):
     serializer_class = GalleryImageSerializer
     permission_classes = (HasAPIKey,)
     http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+    paginator = None
 
 
 @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -236,6 +246,7 @@ class ThreadedCommentViewSet(viewsets.ModelViewSet):
     serializer_class = ThreadedCommentSerializer
     permission_classes = (HasAPIKey,)
     http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+    paginator = None
 
 
 @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -249,6 +260,7 @@ class AssignedKeywordViewSet(viewsets.ModelViewSet):
     serializer_class = AssignedKeywordSerializer
     permission_classes = (HasAPIKey,)
     http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+    paginator = None
 
 
 @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -262,6 +274,7 @@ class RatingViewSet(viewsets.ModelViewSet):
     serializer_class = RatingSerializer
     permission_classes = (HasAPIKey,)
     http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+    paginator = None
 
 # Conditionally include Cartridge viewsets, if the Cartridge package is installed
 try:
@@ -276,6 +289,7 @@ try:
         serializer_class = ProductSerializer
         permission_classes = (HasAPIKey,)
         http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+        paginator = None
 
 
     @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -289,6 +303,7 @@ try:
         serializer_class = ProductImageSerializer
         permission_classes = (HasAPIKey,)
         http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+        paginator = None
 
 
     @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -302,6 +317,7 @@ try:
         serializer_class = ProductOptionSerializer
         permission_classes = (HasAPIKey,)
         http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+        paginator = None
 
 
     @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -315,6 +331,7 @@ try:
         serializer_class = ProductVariationSerializer
         permission_classes = (HasAPIKey,)
         http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+        paginator = None
 
 
     @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -328,6 +345,7 @@ try:
         serializer_class = CategorySerializer
         permission_classes = (HasAPIKey,)
         http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+        paginator = None
 
 
     @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -345,6 +363,7 @@ try:
         serializer_class = CartSerializer
         permission_classes = (HasAPIKey,)
         http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+        paginator = None
 
         @action(serializer_class=CartBillingShippingSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='billing-shipping')
         def billing_shipping(self, request, pk):
@@ -433,6 +452,7 @@ try:
         serializer_class = CartItemSerializer
         permission_classes = (HasAPIKey,)
         http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+        paginator = None
 
 
     @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -446,6 +466,7 @@ try:
         serializer_class = OrderSerializer
         permission_classes = (HasAPIKey,)
         http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+        paginator = None
 
 
     @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -459,6 +480,7 @@ try:
         serializer_class = OrderItemSerializer
         permission_classes = (HasAPIKey,)
         http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+        paginator = None
 
 
     @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -472,6 +494,7 @@ try:
         serializer_class = SaleSerializer
         permission_classes = (HasAPIKey,)
         http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+        paginator = None
 
 
     @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
@@ -485,5 +508,6 @@ try:
         serializer_class = DiscountCodeSerializer
         permission_classes = (HasAPIKey,)
         http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
+        paginator = None
 except:
     pass

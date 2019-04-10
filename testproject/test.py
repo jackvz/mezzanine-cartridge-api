@@ -186,6 +186,7 @@ class SharedViewTestsMixin(object):
     def test_view(self):
          self.assertEquals(self.permission_classes, (HasAPIKey,))
          self.assertEquals(self.http_method_names, ['head', 'get', 'post', 'put', 'patch', 'delete'])
+         self.assertEquals(self.paginator, None)
 
 class UserViewSetTestCase(UserViewSet, TestCase, SharedViewTestsMixin):
     def __init__(self, *args, **kwargs):

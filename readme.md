@@ -13,7 +13,7 @@ Oh, and this will work even if you're just running a blog or any other Mezzanine
 
 ## Features
 
-Web API methods for all Mezzanine objects, including sites, users, groups, pages, blog posts and settings, and Cartridge objects, including products, categories, carts and orders.
+Web API methods for Mezzanine objects, including sites, users, groups, pages, blog posts and settings, and Cartridge objects, including products, categories, carts and orders.
 
 [Swagger-UI](https://swagger.io/tools/swagger-ui/) as development tool and documentation.
 
