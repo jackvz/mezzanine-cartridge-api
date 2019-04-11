@@ -26,8 +26,9 @@ except:
 import json
 
 from rest_framework import viewsets, generics, status
+from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, action
+from rest_framework.decorators import action
 
 from rest_framework_api_key.permissions import HasAPIKey, HasAPIKeyOrIsAuthenticated
 
@@ -40,11 +41,10 @@ from mezzanine.utils.importing import import_dotted_path
 from .serializers import *
 
 
-@api_view(['get'])
-def system_setting_list(request):
+class SystemSettingView(APIView):
     permission_classes = (HasAPIKey,)
 
-    def get(self, request, format=None):
+    def get(self, request):
         system_settings = []
         for attr in dir(django_settings):
             if attr.isupper() and attr != 'DATABASES':
