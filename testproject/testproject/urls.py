@@ -9,7 +9,6 @@ from mezzanine.conf import settings
 
 from cartridge.shop.views import order_history
 
-
 admin.autodiscover()
 
 # Add the urlpatterns for any custom Django applications here.

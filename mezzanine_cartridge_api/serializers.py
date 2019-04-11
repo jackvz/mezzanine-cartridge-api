@@ -18,6 +18,14 @@ except:
 
 from rest_framework import serializers
 
+from .models import *
+
+
+# Serializer for in-memory Django/Mezzanine settings
+class SystemSettingSerializer(serializers.Serializer):
+    name = serializers.CharField(read_only=True)
+    value = serializers.CharField(read_only=True)
+
 
 class GroupSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
