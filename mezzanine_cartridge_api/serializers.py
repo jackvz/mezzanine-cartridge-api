@@ -22,10 +22,9 @@ from .models import *
 
 
 # Serializer for in-memory Django/Mezzanine settings
-class SystemSettingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SystemSetting
-        fields = '__all__'
+class SystemSettingSerializer(serializers.Serializer):
+    name = serializers.CharField(read_only=True)
+    value = serializers.CharField(read_only=True)
 
 
 class GroupSerializer(serializers.ModelSerializer):
