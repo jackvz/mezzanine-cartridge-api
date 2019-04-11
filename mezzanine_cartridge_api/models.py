@@ -4,5 +4,3 @@ from django.db import models
 class SystemSetting():
     name = models.CharField()
     value = models.CharField()
-    class Meta:
-        ordering = ('name',)
