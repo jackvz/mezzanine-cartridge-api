@@ -33,6 +33,7 @@ from rest_framework_api_key.permissions import HasAPIKey, HasAPIKeyOrIsAuthentic
 
 from drf_yasg.utils import swagger_auto_schema
 
+from django.conf import settings as django_settings
 from mezzanine.conf import settings
 from mezzanine.utils.importing import import_dotted_path
 
@@ -41,13 +42,12 @@ from .serializers import *
 
 @api_view(['get'])
 def system_setting_list(request):
-    """
-    List all
-    """
-    if request.method == 'get':
+    permission_classes = (HasAPIKey,)
+
+    def get(self, request, format=None):
         system_settings = []
-        for attr in dir(settings):
-            if attr.isupper():
+        for attr in dir(django_settings):
+            if attr.isupper() and attr != 'DATABASES':
                 system_setting = SystemSetting()
                 system_setting.name = attr
                 system_setting.value = getattr(settings, attr)
@@ -55,7 +55,7 @@ def system_setting_list(request):
         serializer = SystemSettingSerializer(system_settings, many=True)
         return Response(serializer.data)
 
-#--
+
 @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
 @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
 @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
