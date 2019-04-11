@@ -22,7 +22,7 @@ from .models import *
 
 
 # Serializer for in-memory Django/Mezzanine settings
-class SystemSettingSerializer(serializers.Serializer):
+class SystemSettingSerializer(serializers.ModelSerializer):
     class Meta:
         model = SystemSetting
         fields = '__all__'
