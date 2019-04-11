@@ -67,7 +67,7 @@ urlpatterns = [
     url(r'^docs/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     # url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     url(r'^', include(router.urls)),
-    url(r'systemsettings/', views.system_setting_list),
+    url(r'systemsettings/', views.SystemSettingView.as_view(), name='System Settings'),
 ]
 
 # Conditionally include OAuth2 views, if in installed_apps in settings
