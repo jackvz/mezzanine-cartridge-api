@@ -5,7 +5,7 @@ with open('readme.md', 'r') as fh:
 
 setuptools.setup(
     name = 'mezzanine_cartridge_api',
-    version = '1.3.52',
+    version = '1.3.53',
     author = 'Jack van Zyl',
     author_email = 'jackvanzyl@icloud.com',
     description = 'A REST Web API for Mezzanine CMS with the Cartridge e-commerce extension',
@@ -23,8 +23,8 @@ setuptools.setup(
     ],
     include_package_data=True,
     install_requires=[
-        'Django==1.11.20'
-        'Mezzanine==4.3.1'
+        'Django==1.11.20',
+        'Mezzanine==4.3.1',
         'django-custom-settings==0.1.4',
         'django-oauth-toolkit==1.1.1',
         'django-cors-middleware==1.3.1',
