@@ -26,7 +26,6 @@ except:
 import json
 
 from rest_framework import viewsets, generics, status
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
@@ -41,31 +40,28 @@ from mezzanine.utils.importing import import_dotted_path
 from .serializers import *
 
 
-class SystemSettingView(APIView):
+@method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+class SystemSettingViewSet(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin):
+    for attr in dir(django_settings):
+        if attr.isupper() and attr != 'DATABASES':
+            SystemSetting.objects.create(name=attr, value=getattr(settings, attr))
+    queryset = SystemSetting.objects.all()
+    serializer_class = SystemSettingSerializer
     permission_classes = (HasAPIKey,)
-
-    def get(self, request):
-        system_settings = []
-        for attr in dir(django_settings):
-            if attr.isupper() and attr != 'DATABASES':
-                system_setting = SystemSetting()
-                system_setting.name = attr
-                system_setting.value = getattr(settings, attr)
-                system_settings.append(system_setting)
-        serializer = SystemSettingSerializer(system_settings, many=True)
-        return Response(serializer.data)
+    http_method_names = ['head', 'get']
+    paginator = None
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
-@method_decorator(name='check_password', decorator=swagger_auto_schema(operation_description="Check password", request_body=UserPasswordCheckSerializer))
-@method_decorator(name='check_token', decorator=swagger_auto_schema(operation_description="Check token", request_body=UserTokenCheckSerializer))
-@method_decorator(name='activate', decorator=swagger_auto_schema(operation_description="Activate", request_body=UserActivationSerializer))
-@method_decorator(name='set_password', decorator=swagger_auto_schema(operation_description="Set password", request_body=UserPasswordSetSerializer))
+@method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+@method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+@method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
+@method_decorator(name='check_password', decorator=swagger_auto_schema(operation_description='Check password', request_body=UserPasswordCheckSerializer))
+@method_decorator(name='check_token', decorator=swagger_auto_schema(operation_description='Check token', request_body=UserTokenCheckSerializer))
+@method_decorator(name='activate', decorator=swagger_auto_schema(operation_description='Activate', request_body=UserActivationSerializer))
+@method_decorator(name='set_password', decorator=swagger_auto_schema(operation_description='Set password', request_body=UserPasswordSetSerializer))
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -126,12 +122,12 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response({'status': 'Password set'}, status=status.HTTP_200_OK)
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+@method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+@method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+@method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
 class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
@@ -140,12 +136,12 @@ class GroupViewSet(viewsets.ModelViewSet):
     paginator = None
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+@method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+@method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+@method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
 class SiteViewSet(viewsets.ModelViewSet):
     queryset = Site.objects.all()
     serializer_class = SiteSerializer
@@ -154,12 +150,12 @@ class SiteViewSet(viewsets.ModelViewSet):
     paginator = None
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+@method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+@method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+@method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
 class RedirectViewSet(viewsets.ModelViewSet):
     queryset = Redirect.objects.all()
     serializer_class = RedirectSerializer
@@ -168,12 +164,12 @@ class RedirectViewSet(viewsets.ModelViewSet):
     paginator = None
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+@method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+@method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+@method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
 class SettingViewSet(viewsets.ModelViewSet):
     queryset = Setting.objects.all()
     serializer_class = SettingSerializer
@@ -182,12 +178,12 @@ class SettingViewSet(viewsets.ModelViewSet):
     paginator = None
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+@method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+@method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+@method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
 class PageViewSet(viewsets.ModelViewSet):
     queryset = Page.objects.all()
     serializer_class = PageSerializer
@@ -196,12 +192,12 @@ class PageViewSet(viewsets.ModelViewSet):
     paginator = None
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+@method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+@method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+@method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
 class BlogPostViewSet(viewsets.ModelViewSet):
     queryset = BlogPost.objects.all()
     serializer_class = BlogPostSerializer
@@ -210,12 +206,12 @@ class BlogPostViewSet(viewsets.ModelViewSet):
     paginator = None
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+@method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+@method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+@method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
 class BlogCategoryViewSet(viewsets.ModelViewSet):
     queryset = BlogCategory.objects.all()
     serializer_class = BlogCategorySerializer
@@ -224,12 +220,12 @@ class BlogCategoryViewSet(viewsets.ModelViewSet):
     paginator = None
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+@method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+@method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+@method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
 class GalleryViewSet(viewsets.ModelViewSet):
     queryset = Gallery.objects.all()
     serializer_class = GallerySerializer
@@ -238,12 +234,12 @@ class GalleryViewSet(viewsets.ModelViewSet):
     paginator = None
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+@method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+@method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+@method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
 class GalleryImageViewSet(viewsets.ModelViewSet):
     queryset = GalleryImage.objects.all()
     serializer_class = GalleryImageSerializer
@@ -252,12 +248,12 @@ class GalleryImageViewSet(viewsets.ModelViewSet):
     paginator = None
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+@method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+@method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+@method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
 class ThreadedCommentViewSet(viewsets.ModelViewSet):
     queryset = ThreadedComment.objects.all()
     serializer_class = ThreadedCommentSerializer
@@ -266,12 +262,12 @@ class ThreadedCommentViewSet(viewsets.ModelViewSet):
     paginator = None
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+@method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+@method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+@method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
 class AssignedKeywordViewSet(viewsets.ModelViewSet):
     queryset = AssignedKeyword.objects.all()
     serializer_class = AssignedKeywordSerializer
@@ -280,12 +276,12 @@ class AssignedKeywordViewSet(viewsets.ModelViewSet):
     paginator = None
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+@method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+@method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+@method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
 class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
@@ -295,12 +291,12 @@ class RatingViewSet(viewsets.ModelViewSet):
 
 # Conditionally include Cartridge viewsets, if the Cartridge package is installed
 try:
-    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
     class ProductViewSet(viewsets.ModelViewSet):
         queryset = Product.objects.all()
         serializer_class = ProductSerializer
@@ -309,12 +305,12 @@ try:
         paginator = None
 
 
-    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
     class ProductImageViewSet(viewsets.ModelViewSet):
         queryset = ProductImage.objects.all()
         serializer_class = ProductImageSerializer
@@ -323,12 +319,12 @@ try:
         paginator = None
 
 
-    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
     class ProductOptionViewSet(viewsets.ModelViewSet):
         queryset = ProductOption.objects.all()
         serializer_class = ProductOptionSerializer
@@ -337,12 +333,12 @@ try:
         paginator = None
 
 
-    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
     class ProductVariationViewSet(viewsets.ModelViewSet):
         queryset = ProductVariation.objects.all()
         serializer_class = ProductVariationSerializer
@@ -351,12 +347,12 @@ try:
         paginator = None
 
 
-    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
     class CategoryViewSet(viewsets.ModelViewSet):
         queryset = Category.objects.all()
         serializer_class = CategorySerializer
@@ -365,16 +361,16 @@ try:
         paginator = None
 
 
-    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
-    @method_decorator(name='billing_shipping', decorator=swagger_auto_schema(operation_description="Execute billing/shipping handler", request_body=CartBillingShippingSerializer))
-    @method_decorator(name='tax', decorator=swagger_auto_schema(operation_description="Execute tax handler", request_body=CartTaxSerializer))
-    @method_decorator(name='payment', decorator=swagger_auto_schema(operation_description="Execute payment handler", request_body=CartPaymentSerializer))
-    @method_decorator(name='order_placement', decorator=swagger_auto_schema(operation_description="Execute order placement handler", request_body=OrderPlacementSerializer))
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
+    @method_decorator(name='billing_shipping', decorator=swagger_auto_schema(operation_description='Execute billing/shipping handler', request_body=CartBillingShippingSerializer))
+    @method_decorator(name='tax', decorator=swagger_auto_schema(operation_description='Execute tax handler', request_body=CartTaxSerializer))
+    @method_decorator(name='payment', decorator=swagger_auto_schema(operation_description='Execute payment handler', request_body=CartPaymentSerializer))
+    @method_decorator(name='order_placement', decorator=swagger_auto_schema(operation_description='Execute order placement handler', request_body=OrderPlacementSerializer))
     class CartViewSet(viewsets.ModelViewSet):
         queryset = Cart.objects.all()
         serializer_class = CartSerializer
@@ -458,12 +454,12 @@ try:
             return Response({'status': 'Order placement handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
 
-    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
     class CartItemViewSet(viewsets.ModelViewSet):
         queryset = CartItem.objects.all()
         serializer_class = CartItemSerializer
@@ -472,12 +468,12 @@ try:
         paginator = None
 
 
-    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
     class OrderViewSet(viewsets.ModelViewSet):
         queryset = Order.objects.all()
         serializer_class = OrderSerializer
@@ -486,12 +482,12 @@ try:
         paginator = None
 
 
-    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
     class OrderItemViewSet(viewsets.ModelViewSet):
         queryset = OrderItem.objects.all()
         serializer_class = OrderItemSerializer
@@ -500,12 +496,12 @@ try:
         paginator = None
 
 
-    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
     class SaleViewSet(viewsets.ModelViewSet):
         queryset = Sale.objects.all()
         serializer_class = SaleSerializer
@@ -514,12 +510,12 @@ try:
         paginator = None
 
 
-    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description="List all",))
-    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Create",))
-    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Retrieve",))
-    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Update",))
-    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Partial update",))
-    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Destroy",))
+    @method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
+    @method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
+    @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
+    @method_decorator(name='update', decorator=swagger_auto_schema(operation_description='Update',))
+    @method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description='Partial update',))
+    @method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description='Destroy',))
     class DiscountCodeViewSet(viewsets.ModelViewSet):
         queryset = DiscountCode.objects.all()
         serializer_class = DiscountCodeSerializer

@@ -23,7 +23,7 @@ from . import views
 schema_view = get_schema_view(
    openapi.Info(
       title='Mezzanine API',
-      default_version='1.3.50',
+      default_version='1.3.51',
       description='A REST Web API for the Mezzanine content management system with the Cartridge e-commerce extension.',
    ),
    public=True,
@@ -44,6 +44,7 @@ router.register(r'galleryimages', views.GalleryImageViewSet)
 router.register(r'threadedcomments', views.ThreadedCommentViewSet)
 router.register(r'assignedkeywords', views.AssignedKeywordViewSet)
 router.register(r'ratings', views.RatingViewSet)
+router.register(r'systemsettings', views.SystemSettingViewSet)
 
 # Conditionally include Cartridge viewsets, if the Cartridge package is installed
 try:
@@ -67,7 +68,6 @@ urlpatterns = [
     url(r'^docs/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     # url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     url(r'^', include(router.urls)),
-    url(r'systemsettings/', views.SystemSettingView.as_view(), name='System Settings'),
 ]
 
 # Conditionally include OAuth2 views, if in installed_apps in settings
