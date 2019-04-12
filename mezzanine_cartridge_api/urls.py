@@ -23,7 +23,7 @@ from . import views
 schema_view = get_schema_view(
    openapi.Info(
       title='Mezzanine API',
-      default_version='1.3.55',
+      default_version='1.3.56',
       description='A REST Web API for the Mezzanine content management system with the Cartridge e-commerce extension.',
    ),
    public=True,
