@@ -23,7 +23,7 @@ from . import views
 schema_view = get_schema_view(
    openapi.Info(
       title='Mezzanine API',
-      default_version='1.3.53',
+      default_version='1.3.54',
       description='A REST Web API for the Mezzanine content management system with the Cartridge e-commerce extension.',
    ),
    public=True,
@@ -44,7 +44,7 @@ router.register(r'galleryimages', views.GalleryImageViewSet)
 router.register(r'threadedcomments', views.ThreadedCommentViewSet)
 router.register(r'assignedkeywords', views.AssignedKeywordViewSet)
 router.register(r'ratings', views.RatingViewSet)
-router.register(r'systemsettings', views.SystemSettingViewSet)
+router.register(r'systemsettings', views.SystemSettingViewSet, basename='systemsettings')
 
 # Conditionally include Cartridge viewsets, if the Cartridge package is installed
 try:

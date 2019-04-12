@@ -42,15 +42,15 @@ from .serializers import *
 
 @method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
 class SystemSettingViewSet(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin):
-    for attr in dir(django_settings):
-        if attr.isupper() and attr != 'DATABASES':
-            SystemSetting.objects.create(name=attr, value=getattr(settings, attr))
-    queryset = SystemSetting.objects.all()
     serializer_class = SystemSettingSerializer
     permission_classes = (HasAPIKey,)
     http_method_names = ['head', 'get']
     paginator = None
-
+    def get_queryset(self):
+        for attr in dir(django_settings):
+            if attr.isupper() and attr != 'DATABASES':
+                SystemSetting.objects.create(name=attr, value=getattr(settings, attr))
+        return SystemSetting.objects.all()
 
 @method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
 @method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
