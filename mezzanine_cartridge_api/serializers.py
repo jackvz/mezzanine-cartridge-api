@@ -2,8 +2,10 @@ from django.contrib.auth.models import User, Group
 from django.contrib.sites.models import Site
 from django.contrib.redirects.models import Redirect
 from django.conf import settings as django_settings
+from enum import Enum
 
 from drf_braces.serializers.form_serializer import FormSerializer
+from enumfields import EnumIntegerField
 
 from mezzanine.conf.models import Setting
 from mezzanine.pages.models import Page
@@ -16,6 +18,7 @@ from mezzanine.generic.models import ThreadedComment, AssignedKeyword, Rating
 # Conditionally include Cartridge models, if the Cartridge package is installed
 try:
     from cartridge.shop.models import Product, ProductImage, ProductOption, ProductVariation, Category, Cart, CartItem, Order, OrderItem, Discount, Sale, DiscountCode
+    from cartridge.shop.forms import OrderForm
 except:
     pass
 
@@ -196,6 +199,30 @@ try:
         class Meta:
             model = Product
             fields = '__all__'
+
+
+    # Form for Cartridge orders
+    class CheckoutForm(OrderForm):
+        class OneStepType(Enum):
+            CHECKOUT = 1
+        class TwoStepsType(Enum):
+            ADDRESS = 1
+            PAYMENT = 2
+        class OneStepWithConfirmationType(Enum):
+            CHECKOUT = 1
+            CONFIRMATION = 2
+        class TwoStepsWithConfirmationType(Enum):
+            ADDRESS = 1
+            PAYMENT = 2
+            CONFIRMATION = 3
+        step = EnumIntegerField(enum=OneStepType)
+        # SHOP_CHECKOUT_STEPS_SPLIT, SHOP_CHECKOUT_STEPS_CONFIRMATION and SHOP_CHECKOUT_STEPS_SPLIT defaults to true, so check if these either don't exist or are set to true.
+        if (not hasattr(django_settings, 'SHOP_CHECKOUT_STEPS_SPLIT') or django_settings.SHOP_CHECKOUT_STEPS_SPLIT) and (not hasattr(django_settings, 'SHOP_PAYMENT_STEP_ENABLED') or django_settings.SHOP_PAYMENT_STEP_ENABLED):
+            step = EnumIntegerField(enum=TwoStepsType)
+        if (not hasattr(django_settings, 'SHOP_CHECKOUT_STEPS_CONFIRMATION') or django_settings.SHOP_CHECKOUT_STEPS_CONFIRMATION):
+            step = EnumIntegerField(enum=OneStepWithConfirmationType)
+            if (not hasattr(django_settings, 'SHOP_CHECKOUT_STEPS_SPLIT') or django_settings.SHOP_CHECKOUT_STEPS_SPLIT) and (not hasattr(django_settings, 'SHOP_PAYMENT_STEP_ENABLED') or django_settings.SHOP_PAYMENT_STEP_ENABLED):
+                step = EnumIntegerField(enum=TwoStepsWithConfirmationType)
 
 
     class OrderFormSerializer(FormSerializer):
