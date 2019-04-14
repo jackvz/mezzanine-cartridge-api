@@ -226,13 +226,14 @@ try:
 
 
     class OrderFormSerializer(FormSerializer):
-        step = fields.EnumField(enum=CheckoutForm.OneStepType)
-        if django_settings.SHOP_CHECKOUT_STEPS_SPLIT and django_settings.SHOP_PAYMENT_STEP_ENABLED:
-            step = fields.EnumField(enum=CheckoutForm.TwoStepsType)
-        if django_settings.SHOP_CHECKOUT_STEPS_CONFIRMATION:
-            step = fields.EnumField(enum=CheckoutForm.OneStepWithConfirmationType)
-            if django_settings.SHOP_CHECKOUT_STEPS_SPLIT and django_settings.SHOP_PAYMENT_STEP_ENABLED:
-                step = fields.EnumField(enum=CheckoutForm.TwoStepsWithConfirmationType)
+        step = EnumField(enum=CheckoutForm.OneStepType)
+        # SHOP_CHECKOUT_STEPS_SPLIT, SHOP_CHECKOUT_STEPS_CONFIRMATION and SHOP_CHECKOUT_STEPS_SPLIT defaults to true, so check if these either don't exist or are set to true.
+        if (not hasattr(django_settings, 'SHOP_CHECKOUT_STEPS_SPLIT') or django_settings.SHOP_CHECKOUT_STEPS_SPLIT) and (not hasattr(django_settings, 'SHOP_PAYMENT_STEP_ENABLED') or django_settings.SHOP_PAYMENT_STEP_ENABLED):
+            step = EnumField(enum=CheckoutForm.TwoStepsType)
+        if (not hasattr(django_settings, 'SHOP_CHECKOUT_STEPS_CONFIRMATION') or django_settings.SHOP_CHECKOUT_STEPS_CONFIRMATION):
+            step = EnumField(enum=CheckoutForm.OneStepWithConfirmationType)
+            if (not hasattr(django_settings, 'SHOP_CHECKOUT_STEPS_SPLIT') or django_settings.SHOP_CHECKOUT_STEPS_SPLIT) and (not hasattr(django_settings, 'SHOP_PAYMENT_STEP_ENABLED') or django_settings.SHOP_PAYMENT_STEP_ENABLED):
+                step = EnumField(enum=CheckoutForm.TwoStepsWithConfirmationType)
         class Meta(object):
             form = OrderForm
             fields = '__all__'
