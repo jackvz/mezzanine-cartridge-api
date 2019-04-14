@@ -215,7 +215,7 @@ try:
             ADDRESS = 1
             PAYMENT = 2
             CONFIRMATION = 3
-        step = EnumIntegerField(enum=OneStepType)
+        step = EnumIntegerField(enum=OneStepType) # Override the step field (int) with an enum
         # SHOP_CHECKOUT_STEPS_SPLIT, SHOP_CHECKOUT_STEPS_CONFIRMATION and SHOP_CHECKOUT_STEPS_SPLIT defaults to true, so check if these either don't exist or are set to true.
         if (not hasattr(django_settings, 'SHOP_CHECKOUT_STEPS_SPLIT') or django_settings.SHOP_CHECKOUT_STEPS_SPLIT) and (not hasattr(django_settings, 'SHOP_PAYMENT_STEP_ENABLED') or django_settings.SHOP_PAYMENT_STEP_ENABLED):
             step = EnumIntegerField(enum=TwoStepsType)
@@ -223,6 +223,8 @@ try:
             step = EnumIntegerField(enum=OneStepWithConfirmationType)
             if (not hasattr(django_settings, 'SHOP_CHECKOUT_STEPS_SPLIT') or django_settings.SHOP_CHECKOUT_STEPS_SPLIT) and (not hasattr(django_settings, 'SHOP_PAYMENT_STEP_ENABLED') or django_settings.SHOP_PAYMENT_STEP_ENABLED):
                 step = EnumIntegerField(enum=TwoStepsWithConfirmationType)
+        card_expiry_year = forms.IntegerField() # Override the card_expiry_year field (choice) with an int, to disable validation
+
 
 
     class OrderFormSerializer(FormSerializer):
@@ -234,6 +236,7 @@ try:
             step = EnumField(enum=CheckoutForm.OneStepWithConfirmationType)
             if (not hasattr(django_settings, 'SHOP_CHECKOUT_STEPS_SPLIT') or django_settings.SHOP_CHECKOUT_STEPS_SPLIT) and (not hasattr(django_settings, 'SHOP_PAYMENT_STEP_ENABLED') or django_settings.SHOP_PAYMENT_STEP_ENABLED):
                 step = EnumField(enum=CheckoutForm.TwoStepsWithConfirmationType)
+
         class Meta(object):
             form = CheckoutForm
             fields = '__all__'
