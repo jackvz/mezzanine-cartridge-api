@@ -482,11 +482,15 @@ try:
             #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             try:
                 cart = Cart.objects.get(id=pk)
+            except:
+                return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
+            order = Order()
+            try:
                 # @todo: This can be cleaned up when there is time
                 # order = Order.objects.get(id=serializer.data.get('order_id'))
                 order = Order.objects.get(id=serializer.initial_data.get('order_id'))
             except:
-                return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
+                pass
             handler = lambda s: import_dotted_path(s) if s else lambda *args: None
             payment_handler = handler(settings.SHOP_HANDLER_PAYMENT)
             request_front = HttpRequest()
@@ -510,11 +514,15 @@ try:
             #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             try:
                 cart = Cart.objects.get(id=pk)
+            except:
+                return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
+            order = Order()
+            try:
                 # @todo: This can be cleaned up when there is time
                 # order = Order.objects.get(id=serializer.data.get('order_id'))
                 order = Order.objects.get(id=serializer.initial_data.get('order_id'))
             except:
-                return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
+                pass
             handler = lambda s: import_dotted_path(s) if s else lambda *args: None
             order_handler = handler(settings.SHOP_HANDLER_ORDER)
             request_front = HttpRequest()

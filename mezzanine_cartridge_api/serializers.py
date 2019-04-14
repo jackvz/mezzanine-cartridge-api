@@ -268,12 +268,12 @@ try:
 
     class CartPaymentSerializer(serializers.Serializer):
         form = OrderFormSerializer(many=False)
-        order_id = serializers.IntegerField(required=True)
+        order_id = serializers.IntegerField(required=False)
         additional_session_items = serializers.DictField(required=False)
 
     class OrderPlacementSerializer(serializers.Serializer):
         form = OrderFormSerializer(many=False)
-        order_id = serializers.IntegerField(required=True)
+        order_id = serializers.IntegerField(required=False)
         additional_session_items = serializers.DictField(required=False)
 
 
