@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User, Group
 from django.contrib.sites.models import Site
 from django.contrib.redirects.models import Redirect
+from django.conf import settings as django_settings
+
+from drf_braces.serializers.form_serializer import FormSerializer
 
 from mezzanine.conf.models import Setting
 from mezzanine.pages.models import Page
@@ -18,6 +21,7 @@ except:
 
 from rest_framework import serializers
 
+from .fields import *
 from .models import *
 
 
@@ -194,6 +198,19 @@ try:
             fields = '__all__'
 
 
+    class OrderFormSerializer(FormSerializer):
+        step = fields.EnumField(enum=CheckoutForm.OneStepType)
+        if django_settings.SHOP_CHECKOUT_STEPS_SPLIT and django_settings.SHOP_PAYMENT_STEP_ENABLED:
+            step = fields.EnumField(enum=CheckoutForm.TwoStepsType)
+        if django_settings.SHOP_CHECKOUT_STEPS_CONFIRMATION:
+            step = fields.EnumField(enum=CheckoutForm.OneStepWithConfirmationType)
+            if django_settings.SHOP_CHECKOUT_STEPS_SPLIT and django_settings.SHOP_PAYMENT_STEP_ENABLED:
+                step = fields.EnumField(enum=CheckoutForm.TwoStepsWithConfirmationType)
+        class Meta(object):
+            form = OrderForm
+            fields = '__all__'
+
+
     class CartItemSerializer(serializers.ModelSerializer):
         id = serializers.IntegerField(read_only=True)
         class Meta:
@@ -209,17 +226,21 @@ try:
             fields = '__all__'
 
     class CartBillingShippingSerializer(serializers.Serializer):
+        form = OrderFormSerializer(many=False)
         additional_session_items = serializers.DictField(required=False)
 
     class CartTaxSerializer(serializers.Serializer):
-        order_id = serializers.IntegerField(required=True)
+        form = OrderFormSerializer(many=False)
+        order_id = serializers.IntegerField(required=False)
         additional_session_items = serializers.DictField(required=False)
 
     class CartPaymentSerializer(serializers.Serializer):
+        form = OrderFormSerializer(many=False)
         order_id = serializers.IntegerField(required=True)
         additional_session_items = serializers.DictField(required=False)
 
     class OrderPlacementSerializer(serializers.Serializer):
+        form = OrderFormSerializer(many=False)
         order_id = serializers.IntegerField(required=True)
         additional_session_items = serializers.DictField(required=False)
 
