@@ -386,8 +386,9 @@ try:
         @action(serializer_class=CartBillingShippingSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='billing-shipping')
         def billing_shipping(self, request, pk):
             serializer = CartBillingShippingSerializer(data=request.data)
-            if not serializer.is_valid():
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            # @todo: This can be cleaned up when there is time
+            # if not serializer.is_valid():
+            #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             try:
                 cart = Cart.objects.get(id=pk)
             except:
@@ -405,8 +406,9 @@ try:
         @action(serializer_class=CartTaxSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='tax')
         def tax(self, request, pk):
             serializer = CartTaxSerializer(data=request.data)
-            if not serializer.is_valid():
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            # @todo: This can be cleaned up when there is time
+            # if not serializer.is_valid():
+            #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             try:
                 cart = Cart.objects.get(id=pk)
             except:
@@ -429,8 +431,9 @@ try:
         @action(serializer_class=CartPaymentSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='payment')
         def payment(self, request, pk):
             serializer = CartPaymentSerializer(data=request.data)
-            if not serializer.is_valid():
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            # @todo: This can be cleaned up when there is time
+            # if not serializer.is_valid():
+            #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             try:
                 cart = Cart.objects.get(id=pk)
                 order = Order.objects.get(id=serializer.data.get('order_id'))
@@ -449,8 +452,9 @@ try:
         @action(serializer_class=OrderPlacementSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='order-placement')
         def order_placement(self, request, pk):
             serializer = OrderPlacementSerializer(data=request.data)
-            if not serializer.is_valid():
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            # @todo: This can be cleaned up when there is time
+            # if not serializer.is_valid():
+            #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             try:
                 cart = Cart.objects.get(id=pk)
                 order = Order.objects.get(id=serializer.data.get('order_id'))
