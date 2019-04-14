@@ -100,85 +100,90 @@ class RatingSerializerTestCase(RatingSerializer, TestCase, SharedSerializerTests
     def test_model(self):
         self.assertEquals(self.Meta.model, Rating)
 
-class ProductProductManyToManyThroughSerializerTestCase(ProductProductManyToManyThroughSerializer, TestCase, SharedManyToManyThroughSerializerTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
-    def test_model(self):
-        self.assertEquals(self.Meta.model, Product)
-        self.assertEquals(self.Meta.exclude, ('categories', 'related_products', 'upsell_products'));
+# Conditionally include Cartridge tests, if the Cartridge package is installed
+try:
+    class ProductProductManyToManyThroughSerializerTestCase(ProductProductManyToManyThroughSerializer, TestCase, SharedManyToManyThroughSerializerTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
+        def test_model(self):
+            self.assertEquals(self.Meta.model, Product)
+            self.assertEquals(self.Meta.exclude, ('categories', 'related_products', 'upsell_products'));
 
-class ProductSerializerTestCase(ProductSerializer, TestCase, SharedSerializerTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
-    def test_model(self):
-        self.assertEquals(self.Meta.model, Product)
+    class ProductSerializerTestCase(ProductSerializer, TestCase, SharedSerializerTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
+        def test_model(self):
+            self.assertEquals(self.Meta.model, Product)
 
-class ProductImageSerializerTestCase(ProductImageSerializer, TestCase, SharedSerializerTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
-    def test_model(self):
-        self.assertEquals(self.Meta.model, ProductImage)
+    class ProductImageSerializerTestCase(ProductImageSerializer, TestCase, SharedSerializerTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
+        def test_model(self):
+            self.assertEquals(self.Meta.model, ProductImage)
 
-class ProductOptionSerializerTestCase(ProductOptionSerializer, TestCase, SharedSerializerTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
-    def test_model(self):
-        self.assertEquals(self.Meta.model, ProductOption)
+    class ProductOptionSerializerTestCase(ProductOptionSerializer, TestCase, SharedSerializerTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
+        def test_model(self):
+            self.assertEquals(self.Meta.model, ProductOption)
 
-class ProductVariationSerializerTestCase(ProductVariationSerializer, TestCase, SharedSerializerTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
-    def test_model(self):
-        self.assertEquals(self.Meta.model, ProductVariation)
+    class ProductVariationSerializerTestCase(ProductVariationSerializer, TestCase, SharedSerializerTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
+        def test_model(self):
+            self.assertEquals(self.Meta.model, ProductVariation)
 
-class CategoryProductManyToManyThroughSerializerTestCase(CategoryProductManyToManyThroughSerializer, TestCase, SharedManyToManyThroughSerializerTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
-    def test_model(self):
-        self.assertEquals(self.Meta.model, Product)
-        self.assertEquals(self.Meta.exclude, ('categories', 'related_products', 'upsell_products'));
+    class CategoryProductManyToManyThroughSerializerTestCase(CategoryProductManyToManyThroughSerializer, TestCase, SharedManyToManyThroughSerializerTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
+        def test_model(self):
+            self.assertEquals(self.Meta.model, Product)
+            self.assertEquals(self.Meta.exclude, ('categories', 'related_products', 'upsell_products'));
 
-class CategorySerializerTestCase(CategorySerializer, TestCase, SharedSerializerTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
-    def test_model(self):
-        self.assertEquals(self.Meta.model, Category)
+    class CategorySerializerTestCase(CategorySerializer, TestCase, SharedSerializerTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
+        def test_model(self):
+            self.assertEquals(self.Meta.model, Category)
 
-class CartSerializerTestCase(CartSerializer, TestCase, SharedSerializerTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
-    def test_model(self):
-        self.assertEquals(self.Meta.model, Cart)
+    class CartSerializerTestCase(CartSerializer, TestCase, SharedSerializerTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
+        def test_model(self):
+            self.assertEquals(self.Meta.model, Cart)
 
-class CartItemSerializerTestCase(CartItemSerializer, TestCase, SharedSerializerTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
-    def test_model(self):
-        self.assertEquals(self.Meta.model, CartItem)
+    class CartItemSerializerTestCase(CartItemSerializer, TestCase, SharedSerializerTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
+        def test_model(self):
+            self.assertEquals(self.Meta.model, CartItem)
 
-class OrderSerializerTestCase(OrderSerializer, TestCase, SharedSerializerTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
-    def test_model(self):
-        self.assertEquals(self.Meta.model, Order)
+    class OrderSerializerTestCase(OrderSerializer, TestCase, SharedSerializerTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
+        def test_model(self):
+            self.assertEquals(self.Meta.model, Order)
 
-class OrderItemSerializerTestCase(OrderItemSerializer, TestCase, SharedSerializerTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
-    def test_model(self):
-        self.assertEquals(self.Meta.model, OrderItem)
+    class OrderItemSerializerTestCase(OrderItemSerializer, TestCase, SharedSerializerTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
+        def test_model(self):
+            self.assertEquals(self.Meta.model, OrderItem)
 
-class SaleSerializerTestCase(SaleSerializer, TestCase, SharedSerializerTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
-    def test_model(self):
-        self.assertEquals(self.Meta.model, Sale)
+    class SaleSerializerTestCase(SaleSerializer, TestCase, SharedSerializerTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
+        def test_model(self):
+            self.assertEquals(self.Meta.model, Sale)
 
-class DiscountCodeSerializerTestCase(DiscountCodeSerializer, TestCase, SharedSerializerTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
-    def test_model(self):
-        self.assertEquals(self.Meta.model, DiscountCode)
+    class DiscountCodeSerializerTestCase(DiscountCodeSerializer, TestCase, SharedSerializerTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
+        def test_model(self):
+            self.assertEquals(self.Meta.model, DiscountCode)
+
+except:
+    pass
 
 # Shared view tests
 
@@ -240,49 +245,54 @@ class RatingViewSetTestCase(RatingViewSet, TestCase, SharedViewTestsMixin):
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
 
-class ProductViewSetTestCase(ProductViewSet, TestCase, SharedViewTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
+# Conditionally include Cartridge tests, if the Cartridge package is installed
+try:
+    class ProductViewSetTestCase(ProductViewSet, TestCase, SharedViewTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
 
-class ProductImageViewSetTestCase(ProductImageViewSet, TestCase, SharedViewTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
+    class ProductImageViewSetTestCase(ProductImageViewSet, TestCase, SharedViewTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
 
-class ProductOptionViewSetTestCase(ProductOptionViewSet, TestCase, SharedViewTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
+    class ProductOptionViewSetTestCase(ProductOptionViewSet, TestCase, SharedViewTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
 
-class ProductVariationViewSetTestCase(ProductVariationViewSet, TestCase, SharedViewTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
+    class ProductVariationViewSetTestCase(ProductVariationViewSet, TestCase, SharedViewTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
 
-class CategoryViewSetTestCase(CategoryViewSet, TestCase, SharedViewTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
+    class CategoryViewSetTestCase(CategoryViewSet, TestCase, SharedViewTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
 
-class CartViewSetTestCase(CartViewSet, TestCase, SharedViewTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
+    class CartViewSetTestCase(CartViewSet, TestCase, SharedViewTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
 
-class CartItemViewSetTestCase(CartItemViewSet, TestCase, SharedViewTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
+    class CartItemViewSetTestCase(CartItemViewSet, TestCase, SharedViewTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
 
-class OrderViewSetTestCase(OrderViewSet, TestCase, SharedViewTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
+    class OrderViewSetTestCase(OrderViewSet, TestCase, SharedViewTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
 
-class OrderItemViewSetTestCase(OrderItemViewSet, TestCase, SharedViewTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
+    class OrderItemViewSetTestCase(OrderItemViewSet, TestCase, SharedViewTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
 
-class SaleViewSetTestCase(SaleViewSet, TestCase, SharedViewTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
+    class SaleViewSetTestCase(SaleViewSet, TestCase, SharedViewTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
 
-class DiscountCodeViewSetTestCase(DiscountCodeViewSet, TestCase, SharedViewTestsMixin):
-    def __init__(self, *args, **kwargs):
-        TestCase.__init__(self, *args, **kwargs)
+    class DiscountCodeViewSetTestCase(DiscountCodeViewSet, TestCase, SharedViewTestsMixin):
+        def __init__(self, *args, **kwargs):
+            TestCase.__init__(self, *args, **kwargs)
+
+except:
+    pass
 
 # Generic tests
 
