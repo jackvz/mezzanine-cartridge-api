@@ -369,37 +369,74 @@ try:
 
 
     # Create form from Serializer
+    # This is not great, but the custom e-commerce handlers in Mezzanine Cartridge sometimes 
+    # work with the form in the request POST, sometimes with the values in the passed Order object, 
+    # and sometimes with the values in the passed OrderForm object, so cover all scenarios
     class OrderSerializerForm(SerializerForm):
-        step = forms.IntegerField(widget=forms.HiddenInput())
-        same_billing_shipping = forms.BooleanField(required=False)
-        remember = forms.BooleanField(required=False)
-        card_name = forms.CharField()
-        card_type = forms.ChoiceField()
-        card_number = forms.CharField()
-        card_expiry_month = forms.ChoiceField()
-        card_expiry_year = forms.ChoiceField()
-        card_ccv = forms.CharField()
-        billing_detail_first_name = forms.CharField(max_length=100)
-        billing_detail_last_name = forms.CharField(max_length=100)
-        billing_detail_street = forms.CharField(max_length=100)
-        billing_detail_city = forms.CharField(max_length=100)
-        billing_detail_state = forms.CharField(max_length=100)
-        billing_detail_postcode = forms.CharField(max_length=10)
-        billing_detail_country = forms.CharField(max_length=100)
-        billing_detail_phone = forms.CharField(max_length=20)
-        billing_detail_email = forms.CharField(max_length=254)
-        shipping_detail_first_name = forms.CharField(max_length=100)
-        shipping_detail_last_name = forms.CharField(max_length=100)
-        shipping_detail_street = forms.CharField(max_length=100)
-        shipping_detail_city = forms.CharField(max_length=100)
-        shipping_detail_state = forms.CharField(max_length=100)
-        shipping_detail_postcode = forms.CharField(max_length=10)
-        shipping_detail_country = forms.CharField(max_length=100)
-        shipping_detail_phone = forms.CharField(max_length=20)
-        additional_instructions = forms.CharField()
-        discount_code = forms.CharField()
+        step = forms.IntegerField(widget=forms.TextInput(attrs={'id': 'step'}))
+        same_billing_shipping = forms.BooleanField(widget=forms.TextInput(attrs={'id': 'same_billing_shipping'}))
+        remember = forms.BooleanField(widget=forms.TextInput(attrs={'id': 'remember'}))
+        card_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'card_name'}))
+        card_type = forms.ChoiceField(widget=forms.TextInput(attrs={'id': 'card_type'}))
+        card_number = forms.CharField(widget=forms.TextInput(attrs={'id': 'card_number'}))
+        card_expiry_month = forms.ChoiceField(widget=forms.TextInput(attrs={'id': 'card_expiry_month'}))
+        card_expiry_year = forms.ChoiceField(widget=forms.TextInput(attrs={'id': 'card_expiry_year'}))
+        card_ccv = forms.CharField(widget=forms.TextInput(attrs={'id': 'card_ccv'}))
+        billing_detail_first_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'billing_detail_first_name'}))
+        billing_detail_last_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'billing_detail_last_name'}))
+        billing_detail_street = forms.CharField(widget=forms.TextInput(attrs={'id': 'billing_detail_street'}))
+        billing_detail_city = forms.CharField(widget=forms.TextInput(attrs={'id': 'billing_detail_city'}))
+        billing_detail_state = forms.CharField(widget=forms.TextInput(attrs={'id': 'billing_detail_state'}))
+        billing_detail_postcode = forms.CharField(widget=forms.TextInput(attrs={'id': 'billing_detail_postcode'}))
+        billing_detail_country = forms.CharField(widget=forms.TextInput(attrs={'id': 'billing_detail_country'}))
+        billing_detail_phone = forms.CharField(widget=forms.TextInput(attrs={'id': 'billing_detail_phone'}))
+        billing_detail_email = forms.CharField(widget=forms.TextInput(attrs={'id': 'billing_detail_email'}))
+        shipping_detail_first_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'shipping_detail_first_name'}))
+        shipping_detail_last_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'shipping_detail_last_name'}))
+        shipping_detail_street = forms.CharField(widget=forms.TextInput(attrs={'id': 'shipping_detail_street'}))
+        shipping_detail_city = forms.CharField(widget=forms.TextInput(attrs={'id': 'shipping_detail_city'}))
+        shipping_detail_state = forms.CharField(widget=forms.TextInput(attrs={'id': 'shipping_detail_state'}))
+        shipping_detail_postcode = forms.CharField(widget=forms.TextInput(attrs={'id': 'shipping_detail_postcode'}))
+        shipping_detail_country = forms.CharField(widget=forms.TextInput(attrs={'id': 'shipping_detail_country'}))
+        shipping_detail_phone = forms.CharField(widget=forms.TextInput(attrs={'id': 'shipping_detail_phone'}))
+        additional_instructions = forms.CharField(widget=forms.TextInput(attrs={'id': 'additional_instructions'}))
+        discount_code = forms.CharField(widget=forms.TextInput(attrs={'id': 'discount_code'}))
         class Meta(object):
             serializer = OrderFormSerializer
+
+    # This is not great, but the custom e-commerce handlers in Mezzanine Cartridge sometimes 
+    # work with the form in the request POST, sometimes with the values in the passed Order object, 
+    # and sometimes with the values in the passed OrderForm object, so cover all scenarios
+    def AddOrderFormToRequestPost(request, form):
+        request.POST['step'] = str(form['step'])
+        request.POST['same_billing_shipping'] = str(form['same_billing_shipping'])
+        request.POST['remember'] = str(form['remember'])
+        request.POST['card_name'] = str(form['card_name'])
+        request.POST['card_type'] = str(form['card_type'])
+        request.POST['card_number'] = str(form['card_number'])
+        request.POST['card_expiry_month'] = str(form['card_expiry_month'])
+        request.POST['card_expiry_year'] = str(form['card_expiry_year'])
+        request.POST['card_ccv'] = str(form['card_ccv'])
+        request.POST['billing_detail_first_name'] = str(form['billing_detail_first_name'])
+        request.POST['billing_detail_last_name'] = str(form['billing_detail_last_name'])
+        request.POST['billing_detail_street'] = str(form['billing_detail_street'])
+        request.POST['billing_detail_city'] = str(form['billing_detail_city'])
+        request.POST['billing_detail_state'] = str(form['billing_detail_state'])
+        request.POST['billing_detail_postcode'] = str(form['billing_detail_postcode'])
+        request.POST['billing_detail_country'] = str(form['billing_detail_country'])
+        request.POST['billing_detail_phone'] = str(form['billing_detail_phone'])
+        request.POST['billing_detail_email'] = str(form['billing_detail_email'])
+        request.POST['shipping_detail_first_name'] = str(form['shipping_detail_first_name'])
+        request.POST['shipping_detail_last_name'] = str(form['shipping_detail_last_name'])
+        request.POST['shipping_detail_street'] = str(form['shipping_detail_street'])
+        request.POST['shipping_detail_city'] = str(form['shipping_detail_city'])
+        request.POST['shipping_detail_state'] = str(form['shipping_detail_state'])
+        request.POST['shipping_detail_postcode'] = str(form['shipping_detail_postcode'])
+        request.POST['shipping_detail_country'] = str(form['shipping_detail_country'])
+        request.POST['shipping_detail_phone'] = str(form['shipping_detail_phone'])
+        request.POST['additional_instructions'] = str(form['additional_instructions'])
+        request.POST['discount_code'] = str(form['discount_code'])
+        return request
 
 
     @method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
@@ -440,8 +477,12 @@ try:
             # @todo: This can be cleaned up when there is time
             # form = serializer.data.get('form')
             form = serializer.initial_data.get('form')
+            AddOrderFormToRequestPost(request_front, form)
             form = OrderSerializerForm(form)
+            form.auto_id = False
+
             billship_handler(request_front, form)
+
             return Response({'status': 'Billing/Shipping handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=CartTaxSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='tax')
@@ -470,8 +511,18 @@ try:
             # @todo: This can be cleaned up when there is time
             # form = serializer.data.get('form')
             form = serializer.initial_data.get('form')
+            AddOrderFormToRequestPost(request_front, form)
             form = OrderSerializerForm(form)
-            tax_handler(request_front, form, order)
+            form.auto_id = False
+
+            # This is not great, but the custom e-commerce handlers in Mezzanine Cartridge sometimes 
+            # work with the form in the request POST, sometimes with the values in the passed Order object, 
+            # and sometimes with the values in the passed OrderForm object, so cover all scenarios
+            try:
+                tax_handler(request_front, form)
+            except:
+                tax_handler(request_front, form, order)
+
             return Response({'status': 'Tax handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=CartPaymentSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='payment')
@@ -502,8 +553,18 @@ try:
             # @todo: This can be cleaned up when there is time
             # form = serializer.data.get('form')
             form = serializer.initial_data.get('form')
+            AddOrderFormToRequestPost(request_front, form)
             form = OrderSerializerForm(form)
-            payment_handler(request_front, form, order)
+            form.auto_id = False
+
+            # This is not great, but the custom e-commerce handlers in Mezzanine Cartridge sometimes 
+            # work with the form in the request POST, sometimes with the values in the passed Order object, 
+            # and sometimes with the values in the passed OrderForm object, so cover all scenarios
+            try:
+                payment_handler(request_front, form)
+            except:
+                payment_handler(request_front, form, order)
+
             return Response({'status': 'Payment handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
         @action(serializer_class=OrderPlacementSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='order-placement')
@@ -534,8 +595,17 @@ try:
             # @todo: This can be cleaned up when there is time
             # form = serializer.data.get('form')
             form = serializer.initial_data.get('form')
+            AddOrderFormToRequestPost(request_front, form)
             form = OrderSerializerForm(form)
-            order_handler(request_front, form, order)
+            form.auto_id = False
+
+            # This is not great, but the custom e-commerce handlers in Mezzanine Cartridge sometimes 
+            # work with the form in the request POST, sometimes with the values in the passed Order object, 
+            # and sometimes with the values in the passed OrderForm object, so cover all scenarios
+            try:
+                order_handler(request_front, form)
+            except:
+                order_handler(request_front, form, order)
             return Response({'status': 'Order placement handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
 
