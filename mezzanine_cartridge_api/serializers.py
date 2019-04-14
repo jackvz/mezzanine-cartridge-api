@@ -235,7 +235,7 @@ try:
             if (not hasattr(django_settings, 'SHOP_CHECKOUT_STEPS_SPLIT') or django_settings.SHOP_CHECKOUT_STEPS_SPLIT) and (not hasattr(django_settings, 'SHOP_PAYMENT_STEP_ENABLED') or django_settings.SHOP_PAYMENT_STEP_ENABLED):
                 step = EnumField(enum=CheckoutForm.TwoStepsWithConfirmationType)
         class Meta(object):
-            form = OrderForm
+            form = CheckoutForm
             fields = '__all__'
 
 
