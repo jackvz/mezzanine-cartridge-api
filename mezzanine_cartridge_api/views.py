@@ -9,6 +9,8 @@ from django.http import HttpRequest
 
 from django.utils.decorators import method_decorator
 
+from drf_braces.forms.serializer_form import SerializerForm
+
 from mezzanine.conf.models import Setting
 from mezzanine.pages.models import Page
 
@@ -366,6 +368,40 @@ try:
         paginator = None
 
 
+    # Create form from Serializer
+    class OrderSerializerForm(SerializerForm):
+        step = forms.IntegerField(widget=forms.HiddenInput())
+        same_billing_shipping = forms.BooleanField(required=False)
+        remember = forms.BooleanField(required=False)
+        card_name = forms.CharField()
+        card_type = forms.ChoiceField()
+        card_number = forms.CharField()
+        card_expiry_month = forms.ChoiceField()
+        card_expiry_year = forms.ChoiceField()
+        card_ccv = forms.CharField()
+        billing_detail_first_name = forms.CharField(max_length=100)
+        billing_detail_last_name = forms.CharField(max_length=100)
+        billing_detail_street = forms.CharField(max_length=100)
+        billing_detail_city = forms.CharField(max_length=100)
+        billing_detail_state = forms.CharField(max_length=100)
+        billing_detail_postcode = forms.CharField(max_length=10)
+        billing_detail_country = forms.CharField(max_length=100)
+        billing_detail_phone = forms.CharField(max_length=20)
+        billing_detail_email = forms.CharField(max_length=254)
+        shipping_detail_first_name = forms.CharField(max_length=100)
+        shipping_detail_last_name = forms.CharField(max_length=100)
+        shipping_detail_street = forms.CharField(max_length=100)
+        shipping_detail_city = forms.CharField(max_length=100)
+        shipping_detail_state = forms.CharField(max_length=100)
+        shipping_detail_postcode = forms.CharField(max_length=10)
+        shipping_detail_country = forms.CharField(max_length=100)
+        shipping_detail_phone = forms.CharField(max_length=20)
+        additional_instructions = forms.CharField()
+        discount_code = forms.CharField()
+        class Meta(object):
+            serializer = OrderFormSerializer
+
+
     @method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))
     @method_decorator(name='create', decorator=swagger_auto_schema(operation_description='Create',))
     @method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description='Retrieve',))
@@ -396,10 +432,15 @@ try:
             handler = lambda s: import_dotted_path(s) if s else lambda *args: None
             billship_handler = handler(settings.SHOP_HANDLER_BILLING_SHIPPING)
             request_front = HttpRequest()
-            request_front.session = serializer.data.get('additional_session_items')
+            # @todo: This can be cleaned up when there is time
+            # request_front.session = serializer.data.get('additional_session_items')
+            request_front.session = serializer.initial_data.get('additional_session_items')
             request_front.session['cart'] = pk
             request_front.cart = cart
-            form = serializer.data.get('form')
+            # @todo: This can be cleaned up when there is time
+            # form = serializer.data.get('form')
+            form = serializer.initial_data.get('form')
+            form = OrderSerializerForm(form)
             billship_handler(request_front, form)
             return Response({'status': 'Billing/Shipping handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
@@ -415,16 +456,21 @@ try:
                 return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
             order = Order()
             try:
-                order = Order.objects.get(id=serializer.data.get('order_id'))
+                # @todo: This can be cleaned up when there is time
+                # order = Order.objects.get(id=serializer.data.get('order_id'))
+                order = Order.objects.get(id=serializer.initial_data.get('order_id'))
             except:
                 pass
             handler = lambda s: import_dotted_path(s) if s else lambda *args: None
             tax_handler = handler(settings.SHOP_HANDLER_TAX)
             request_front = HttpRequest()
-            request_front.session = serializer.data.get('additional_session_items')
+            request_front.session = serializer.initial_data.get('additional_session_items')
             request_front.session['cart'] = pk
             request_front.cart = cart
-            form = serializer.data.get('form')
+            # @todo: This can be cleaned up when there is time
+            # form = serializer.data.get('form')
+            form = serializer.initial_data.get('form')
+            form = OrderSerializerForm(form)
             tax_handler(request_front, form, order)
             return Response({'status': 'Tax handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
@@ -436,16 +482,23 @@ try:
             #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             try:
                 cart = Cart.objects.get(id=pk)
-                order = Order.objects.get(id=serializer.data.get('order_id'))
+                # @todo: This can be cleaned up when there is time
+                # order = Order.objects.get(id=serializer.data.get('order_id'))
+                order = Order.objects.get(id=serializer.initial_data.get('order_id'))
             except:
                 return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
             handler = lambda s: import_dotted_path(s) if s else lambda *args: None
             payment_handler = handler(settings.SHOP_HANDLER_PAYMENT)
             request_front = HttpRequest()
-            request_front.session = serializer.data.get('additional_session_items')
+            # @todo: This can be cleaned up when there is time
+            # request_front.session = serializer.data.get('additional_session_items')
+            request_front.session = serializer.initial_data.get('additional_session_items')
             request_front.session['cart'] = pk
             request_front.cart = cart
-            form = serializer.data.get('form')
+            # @todo: This can be cleaned up when there is time
+            # form = serializer.data.get('form')
+            form = serializer.initial_data.get('form')
+            form = OrderSerializerForm(form)
             payment_handler(request_front, form, order)
             return Response({'status': 'Payment handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
@@ -457,16 +510,23 @@ try:
             #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             try:
                 cart = Cart.objects.get(id=pk)
-                order = Order.objects.get(id=serializer.data.get('order_id'))
+                # @todo: This can be cleaned up when there is time
+                # order = Order.objects.get(id=serializer.data.get('order_id'))
+                order = Order.objects.get(id=serializer.initial_data.get('order_id'))
             except:
                 return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
             handler = lambda s: import_dotted_path(s) if s else lambda *args: None
             order_handler = handler(settings.SHOP_HANDLER_ORDER)
             request_front = HttpRequest()
-            request_front.session = serializer.data.get('additional_session_items')
+            # @todo: This can be cleaned up when there is time
+            # request_front.session = serializer.data.get('additional_session_items')
+            request_front.session = serializer.initial_data.get('additional_session_items')
             request_front.session['cart'] = pk
             request_front.cart = cart
-            form = serializer.data.get('form')
+            # @todo: This can be cleaned up when there is time
+            # form = serializer.data.get('form')
+            form = serializer.initial_data.get('form')
+            form = OrderSerializerForm(form)
             order_handler(request_front, form, order)
             return Response({'status': 'Order placement handler executed', 'session': json.dumps(request_front.session)}, status=status.HTTP_200_OK)
 
