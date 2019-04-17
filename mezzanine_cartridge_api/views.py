@@ -1,31 +1,31 @@
-from django.contrib.auth import authenticate
-from django.contrib.auth.tokens import default_token_generator
-
+# Model imports
 from django.contrib.auth.models import User, Group
 from django.contrib.sites.models import Site
 from django.contrib.redirects.models import Redirect
-
-from django.http import HttpRequest
-
-from django.utils.decorators import method_decorator
-
-from drf_braces.forms.serializer_form import SerializerForm
-
 from mezzanine.conf.models import Setting
 from mezzanine.pages.models import Page
-
-from mezzanine.blog.models import BlogPost, BlogCategory
-from mezzanine.galleries.models import Gallery, GalleryImage
-
-from mezzanine.generic.models import ThreadedComment, AssignedKeyword, Rating
-
-# Conditionally include Cartridge viewsets, if the Cartridge package is installed
+# Conditionally include Cartridge models, if the Cartridge package is installed
 try:
     from cartridge.shop.models import Product, ProductImage, ProductOption, ProductVariation, Category, Cart, CartItem, Order, OrderItem, Discount, Sale, DiscountCode
 except:
     pass
 
+# Django imports
 import json
+from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.tokens import default_token_generator
+from django.http import HttpRequest
+from django.utils.decorators import method_decorator
+
+# Mezzanine imports
+from mezzanine.blog.models import BlogPost, BlogCategory
+from mezzanine.galleries.models import Gallery, GalleryImage
+from mezzanine.generic.models import ThreadedComment, AssignedKeyword, Rating
+
+# General imports
+from drf_braces.forms.serializer_form import SerializerForm
+
 
 from rest_framework import viewsets, generics, status
 from rest_framework.response import Response
@@ -80,7 +80,8 @@ class UserViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
         serializer.save()
-        send_verification_mail(None, self.request.user, 'signup_verify')
+        user = User.objects.get(username=self.request.data['username'])
+        send_verification_mail(self.request, user, 'signup_verify')
     def perform_update(self, serializer):
         serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
         serializer.save()
@@ -134,7 +135,7 @@ class UserViewSet(viewsets.ModelViewSet):
             user = User.objects.get(id=pk)
         except:
             return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
-        send_verification_mail(None, user, 'password_reset_verify')
+        send_verification_mail(self.request, user, 'password_reset_verify')
         return Response({'status': 'Password reset email sent.'}, status=status.HTTP_200_OK)
 
     @action(serializer_class=UserPasswordSetSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='set-password')
