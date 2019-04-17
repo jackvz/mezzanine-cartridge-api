@@ -12,6 +12,7 @@ except:
 
 # Django imports
 import json
+from django.db.models import Q
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.tokens import default_token_generator
@@ -127,12 +128,12 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response({'status': 'User activated.'}, status=status.HTTP_200_OK)
 
     @action(serializer_class=UserPasswordResetSerializer, methods=['post'], detail=False, permission_classes=(HasAPIKey,), url_path='reset-password')
-    def reset_password(self, request, pk):
+    def reset_password(self, request):
         serializer = UserPasswordResetSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         try:
-            user = User.objects.get(id=pk)
+            user = User.objects.filter(Q(username=serializer.data.get('email_or_username')) | Q(email=serializer.data.get('email_or_username'))).first()
         except:
             return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
         send_verification_mail(self.request, user, 'password_reset_verify')
