@@ -37,6 +37,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 from django.conf import settings as django_settings
 from mezzanine.conf import settings
+from mezzanine.utils.email import send_verification_mail
 from mezzanine.utils.importing import import_dotted_path
 
 from .serializers import *
@@ -68,6 +69,7 @@ class SystemSettingViewSet(viewsets.GenericViewSet, viewsets.mixins.ListModelMix
 @method_decorator(name='check_password', decorator=swagger_auto_schema(operation_description='Check password', request_body=UserPasswordCheckSerializer))
 @method_decorator(name='check_token', decorator=swagger_auto_schema(operation_description='Check token', request_body=UserTokenCheckSerializer))
 @method_decorator(name='activate', decorator=swagger_auto_schema(operation_description='Activate', request_body=UserActivationSerializer))
+@method_decorator(name='reset_password', decorator=swagger_auto_schema(operation_description='Reset password', request_body=UserPasswordResetSerializer))
 @method_decorator(name='set_password', decorator=swagger_auto_schema(operation_description='Set password', request_body=UserPasswordSetSerializer))
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -75,6 +77,16 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (HasAPIKey,)
     http_method_names = ['head', 'get', 'post', 'put', 'patch', 'delete']
     paginator = None
+    def perform_create(self, serializer):
+        serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
+        serializer.save()
+        send_verification_mail(None, self.request.user, 'signup_verify')
+    def perform_update(self, serializer):
+        serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
+        serializer.save()
+    def perform_partial_update(self, serializer):
+        serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
+        serializer.save()
 
     @action(serializer_class=UserPasswordCheckSerializer, methods=['post'], detail=False, permission_classes=(HasAPIKey,), url_path='check-password')
     def check_password(self, request):
@@ -96,7 +108,7 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
         if not default_token_generator.check_token(user, serializer.data.get('token')):
             return Response({'token': ['Invalid token.']}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({'status': 'Valid token'}, status=status.HTTP_200_OK)
+        return Response({'status': 'Valid token.'}, status=status.HTTP_200_OK)
 
     @action(serializer_class=UserActivationSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='activate')
     def activate(self, request, pk):
@@ -111,7 +123,19 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({'token': ['Invalid token.']}, status=status.HTTP_400_BAD_REQUEST)
         user.is_active = True
         user.save()
-        return Response({'status': 'User activated'}, status=status.HTTP_200_OK)
+        return Response({'status': 'User activated.'}, status=status.HTTP_200_OK)
+
+    @action(serializer_class=UserPasswordResetSerializer, methods=['post'], detail=False, permission_classes=(HasAPIKey,), url_path='reset-password')
+    def reset_password(self, request, pk):
+        serializer = UserPasswordResetSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            user = User.objects.get(id=pk)
+        except:
+            return Response({'detail': ['Not found.']}, status=status.HTTP_404_NOT_FOUND)
+        send_verification_mail(None, user, 'password_reset_verify')
+        return Response({'status': 'Password reset email sent.'}, status=status.HTTP_200_OK)
 
     @action(serializer_class=UserPasswordSetSerializer, methods=['post'], detail=True, permission_classes=(HasAPIKey,), url_path='set-password')
     def set_password(self, request, pk):
@@ -126,7 +150,7 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({'old_password': ['Wrong password.']}, status=status.HTTP_400_BAD_REQUEST)
         user.set_password(serializer.data.get('new_password'))
         user.save()
-        return Response({'status': 'Password set'}, status=status.HTTP_200_OK)
+        return Response({'status': 'Password set.'}, status=status.HTTP_200_OK)
 
 
 @method_decorator(name='list', decorator=swagger_auto_schema(operation_description='List all',))

@@ -20,7 +20,10 @@ Web API methods for Mezzanine objects, including sites, users, groups, pages, bl
 Comes with [API key authentication/authorisation](https://pypi.org/project/djangorestframework-api-key/) configured, but can also be configured to work with Password-based and/or Authorisation code OAuth2 authentication/authorisation.
 
 Additional features:
-- User activation method, and user password creation and checking methods (with password hashing).
+- User create and activate methods that include password hashing and sending a verification email
+- User update and partial update methods that include password hashing
+- Methods for checking a user password and a user token
+- Password reset methods that include sending a verification email
 - Methods for e-commerce customisation: Handlers for billing/shipping, tax, payment and order placement, to execute any customisation work done in the Mezzanine site installation.
 
 ## Screenshots

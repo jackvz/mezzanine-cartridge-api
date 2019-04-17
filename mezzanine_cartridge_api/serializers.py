@@ -60,6 +60,9 @@ class UserTokenCheckSerializer(serializers.Serializer):
 class UserActivationSerializer(serializers.Serializer):
     token = serializers.CharField(required=True)
 
+class UserPasswordResetSerializer(serializers.Serializer):
+    email_or_username = serializers.CharField(required=True)
+
 class UserPasswordSetSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
