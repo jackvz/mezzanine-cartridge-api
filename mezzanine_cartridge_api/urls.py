@@ -22,7 +22,7 @@ from . import views
 
 api_info = openapi.Info(
     title='Mezzanine API',
-    default_version='1.5.15',
+    default_version='1.5.16',
     description='A REST Web API for the Mezzanine content management system with the Cartridge e-commerce extension.'
 )
 

@@ -3,10 +3,10 @@ from django.contrib.sites.models import Site
 from django.contrib.redirects.models import Redirect
 from django import forms
 from django.conf import settings as django_settings
-from enum import Enum
+# from enum import Enum
 
 from drf_braces.serializers.form_serializer import FormSerializer
-from enumfields import EnumIntegerField
+# from enumfields import EnumIntegerField
 
 from mezzanine.conf.models import Setting
 from mezzanine.pages.models import Page
