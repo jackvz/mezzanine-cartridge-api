@@ -316,6 +316,7 @@ class MezzanineCartridgeApiTestCase(TestCase):
         })
 
         self.assertEqual(settings.SWAGGER_SETTINGS, {
+            'DEFAULT_INFO': 'mezzanine_cartridge_api.urls.api_info',
             'LOGIN_URL': '/admin/login/',
             'LOGOUT_URL': '/admin/logout/',
             'DOC_EXPANSION': 'list',

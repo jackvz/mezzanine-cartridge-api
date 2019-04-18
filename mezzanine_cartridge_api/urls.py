@@ -20,14 +20,15 @@ except:
 from . import views
 
 
+api_info = openapi.Info(
+    title='Mezzanine API',
+    default_version='1.5.15',
+    description='A REST Web API for the Mezzanine content management system with the Cartridge e-commerce extension.'
+)
+
 schema_view = get_schema_view(
-   openapi.Info(
-      title='Mezzanine API',
-      default_version='1.5.14',
-      description='A REST Web API for the Mezzanine content management system with the Cartridge e-commerce extension.',
-   ),
-   public=True,
-   permission_classes=(permissions.AllowAny,),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
 )
 
 router = routers.DefaultRouter()
@@ -48,17 +49,17 @@ router.register(r'systemsettings', views.SystemSettingViewSet, basename='systems
 
 # Conditionally include Cartridge viewsets, if the Cartridge package is installed
 try:
-  router.register(r'products', views.ProductViewSet)
-  router.register(r'productimages', views.ProductImageViewSet)
-  router.register(r'productoptions', views.ProductOptionViewSet)
-  router.register(r'productvariations', views.ProductVariationViewSet)
-  router.register(r'categories', views.CategoryViewSet)
-  router.register(r'carts', views.CartViewSet)
-  router.register(r'cartitems', views.CartItemViewSet)
-  router.register(r'orders', views.OrderViewSet)
-  router.register(r'orderitems', views.OrderItemViewSet)
-  router.register(r'sales', views.SaleViewSet)
-  router.register(r'discountcodes', views.DiscountCodeViewSet)
+    router.register(r'products', views.ProductViewSet)
+    router.register(r'productimages', views.ProductImageViewSet)
+    router.register(r'productoptions', views.ProductOptionViewSet)
+    router.register(r'productvariations', views.ProductVariationViewSet)
+    router.register(r'categories', views.CategoryViewSet)
+    router.register(r'carts', views.CartViewSet)
+    router.register(r'cartitems', views.CartItemViewSet)
+    router.register(r'orders', views.OrderViewSet)
+    router.register(r'orderitems', views.OrderItemViewSet)
+    router.register(r'sales', views.SaleViewSet)
+    router.register(r'discountcodes', views.DiscountCodeViewSet)
 except:
     pass
 
