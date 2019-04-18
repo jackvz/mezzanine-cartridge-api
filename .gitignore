@@ -26,6 +26,3 @@
 # Test coverage artifacts.
 .coverage
 coverage.xml
-
-# Generated Swagger/OpenAPI spec
-swagger.json
