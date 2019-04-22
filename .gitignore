@@ -1,0 +1,28 @@
+# Editor config.
+.editorconfig
+
+# OS folders.
+.DS_Store
+
+# Compiled Python modules, and Python caches.
+*.pyc
+/.pytest_cache/
+/__pycache__/
+
+# Virtual environment.
+/env/
+
+# Distribution package folders.
+/dist/
+/build/
+
+# Python egg metadata.
+/*.egg-info
+
+# Non-essential test project code.
+/testproject/deploy
+/testproject/db.dev
+
+# Test coverage artifacts.
+.coverage
+coverage.xml

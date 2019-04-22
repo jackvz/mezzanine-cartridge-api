@@ -1,0 +1,3 @@
+include license
+include readme.md
+recursive-include mezzanine_cartridge_api/templates *
