@@ -23,7 +23,7 @@ setuptools.setup(
     ],
     include_package_data=True,
     install_requires=[
-        'Django==1.11.20',
+        'Django==1.11.29',
         'Mezzanine==4.3.1',
         'django-custom-settings==0.1.4',
         'django-oauth-toolkit==1.1.1',
